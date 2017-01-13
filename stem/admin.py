@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from stem.models import Website, Article, Comment
+
+admin.site.register(Website)
+admin.site.register(Article)
+admin.site.register(Comment)

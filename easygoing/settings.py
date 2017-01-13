@@ -12,25 +12,32 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+import psycopg2
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# TODO generate new secret key upon deployment (but not upon update!)
 SECRET_KEY = '32^#x%0%)a67lfx)$&di986jeqnr3vfo-f2ms!h4*h&e=dv4#1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# TODO better logging?
+DEBUG = bool(os.getenv('DEBUG', False))
 
+# TODO upon deploy ask for domain/allowed and certificate
 ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS', '').split(';'))
 
 # Application definition
 
 INSTALLED_APPS = [
+    'stem.apps.StemConfig',
+    'solo.apps.SoloAppConfig',
+    'django.contrib.postgres',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -69,17 +76,40 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'easygoing.wsgi.application'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-DATABASES = {
+CACHES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://{}:{}/1'.format(os.getenv('CACHE_HOST', 'cache'), os.getenv('CACHE_PORT', '6379')),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.HerdClient'
+        }
     }
 }
 
+
+# 'ENGINE': 'django.db.backends.sqlite3',
+# 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.getenv('DB_NAME', os.path.join(BASE_DIR,'db.sqlite3')),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'postgres',
+        # 'USER': os.getenv('DB_USER', 'postgres'),
+        # 'PASSWORD': os.getenv('DB_PASSWORD'),
+        # 'HOST': os.getenv('DB_HOST', 'db'),
+        # 'PORT': os.getenv('DB_PORT', '5432'),
+        # 'OPTIONS': {
+        #     'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE,
+        # },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -99,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -113,8 +142,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+STATIC_ROOT = '/var/easygoing/static/'
+MEDIA_ROOT = '/var/easygoing/media/'

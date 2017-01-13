@@ -1,0 +1,91 @@
+version: '2'
+volumes:
+  base_data-release:
+  db_data-release:
+services:
+  base:
+    image: release
+    build:
+      context: .
+      dockerfile: release.docker
+    volumes:
+      - base_data-release:/var/easygoing
+    links:
+      - db
+      - cache
+    command:
+      >
+        bash -c "
+        chown -R user:user /var/easygoing &&
+        su user -c 'mkdir -p /var/easygoing/logs' &&
+        su user -c 'touch /var/easygoing/logs/django.log' &&
+        su user -c 'touch /var/easygoing/logs/gunicorn.log' &&
+        su user -c 'touch /var/easygoing/logs/nginx-access.log' &&
+        su user -c 'touch /var/easygoing/logs/nginx-error.log' &&
+        chmod -R uo+rw /var/easygoing;
+        su user -c 'python wait_for.py db 5432' &&
+        su user -c 'python wait_for.py cache 6379' &&
+        su user -c 'python manage.py migrate' &&
+        su user -c 'python manage.py collectstatic --noinput'"
+    environment:
+      DJANGO_ALLOWED_HOSTS: '*'
+      DB_ENGINE: 'django.db.backends.postgresql'
+      DB_NAME: 'postgres'
+      DB_USER: 'postgres'
+      DB_HOST: 'db'
+      DB_PORT: '5432'
+  nginx:
+    image: nginx-release
+    build:
+      context: .
+      dockerfile: release-nginx.docker
+    restart: always
+    volumes:
+      - base_data-release:/var/easygoing
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - base
+    links:
+      - gunicorn
+  gunicorn:
+    image: release
+    command:
+      >
+        bash -c "
+        python wait_for.py db 5432 &&
+        python wait_for.py cache 6379 &&
+        gunicorn easygoing.wsgi:application
+        --name easygoing_gunicorn
+        --bind=unix:/var/easygoing/gunicorn.sock
+        --user=user --group=user
+        --log-level=info
+        --log-file=/var/easygoing/logs/gunicorn.log"
+    user: user
+    environment:
+      # TODO do something about this - deployment
+      DJANGO_ALLOWED_HOSTS: '*'
+      DB_ENGINE: 'django.db.backends.postgresql'
+      DB_NAME: 'postgres'
+      DB_USER: 'postgres'
+      DB_HOST: 'db'
+      DB_PORT: '5432'
+    restart: always
+    volumes_from:
+      - base
+    tmpfs:
+      -/tmp
+    depends_on:
+      - base
+    links:
+      - db
+      - cache
+  cache:
+    image: redis:3.2
+    restart: always
+  db:
+    image: postgres:9.6
+    restart: always
+    volumes:
+      - db_data-release:/var/lib/postgresql/data

@@ -135,3 +135,4 @@ ENV/
 .ropeproject
 /easygoing.iml
 /.idea/
+/db.sqlite3

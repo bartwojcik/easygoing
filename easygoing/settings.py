@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-import psycopg2
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -78,33 +76,25 @@ WSGI_APPLICATION = 'easygoing.wsgi.application'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://{}:{}/1'.format(os.getenv('CACHE_HOST', 'cache'), os.getenv('CACHE_PORT', '6379')),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.HerdClient'
+if os.getenv('CACHE_HOST'):
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://{}:{}/1'.format(os.getenv('CACHE_HOST', 'cache'), os.getenv('CACHE_PORT', '6379')),
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.HerdClient'
+            }
         }
     }
-}
 
-
-# 'ENGINE': 'django.db.backends.sqlite3',
-# 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.getenv('DB_NAME', os.path.join(BASE_DIR,'db.sqlite3')),
+        'NAME': os.getenv('DB_NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'postgres',
-        # 'USER': os.getenv('DB_USER', 'postgres'),
-        # 'PASSWORD': os.getenv('DB_PASSWORD'),
-        # 'HOST': os.getenv('DB_HOST', 'db'),
-        # 'PORT': os.getenv('DB_PORT', '5432'),
         # 'OPTIONS': {
         #     'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE,
         # },
@@ -128,6 +118,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

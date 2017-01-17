@@ -1,0 +1,61 @@
+{% load staticfiles i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}{{website.title}}{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Easygoing base template">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
+</head>
+<body>
+
+<!--TODO menu/sidebar, styles etc.-->
+<div class="container-fluid">
+    <div class="row">
+        <header>
+            <div class="col-md-10 col-md-offset-1 text-center">
+                {% block header %}
+                <div class="well">
+                    {{website.header}}
+                    {% if user.is_authenticated %}
+                    <div class="text-right">
+                         Logged in as {{user.username}}
+                         <a href="{% url 'logout'%}">(Log Out)</a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endblock %}
+            </div>
+        </header>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-9">
+            <main>
+                {% block content %} easygoing base template content {% endblock %}
+            </main>
+        </div>
+
+        <div class="col-md-3">
+            <br/>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="well">
+                        <nav>
+                            {% block sidebar %} easygoing base template sidebar {% endblock %}
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

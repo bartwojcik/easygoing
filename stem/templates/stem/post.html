@@ -1,0 +1,50 @@
+{% extends "stem/index.html" %}
+
+{% block title %}{{post.title}} - {{website.title}}{% endblock %}
+
+{% block content %}
+<article>
+    <h2>{{post.title}}</h2>
+    <small>
+        <span class="glyphicon glyphicon-time"></span> {{post.created}}
+        {% if post.edited is not None %}
+         (Edited: {{post.edited}})
+        {% endif %}
+    </small>
+    <br/>
+    <br/>
+    <p>
+        {{post.content}}
+    </p>
+</article>
+
+<hr/>
+
+{% if post.comment_set.all %}
+<h4 id="comments">Comments:</h4>
+{% for comment in post.comment_set.all %}
+{% if not comment.taken_down %}
+<article id="comment-{{comment.pk}}">
+    <h5>
+        {% if comment.author is not None %}
+        <b>{{comment.author.username}}</b>
+        {% else %}
+        {{comment.author_name}}
+        {% endif %}
+        <small>
+            <span class="glyphicon glyphicon-time"></span> {{comment.date}}
+        </small>
+        <a href="#comment-{{comment.pk}}">#</a>
+    </h5>
+    <p>
+        {{comment.content}}
+    </p>
+    <hr/>
+</article>
+{% endif %}
+{% endfor %}
+{% else %}
+<h4 id="comments">No comments submitted yet.</h4>
+{% endif %}
+
+{% endblock %}

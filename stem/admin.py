@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from stem.models import Website, Article, Comment
+from stem.models import Website, Post, Comment
 
 admin.site.register(Website)
-admin.site.register(Article)
+admin.site.register(Post)
 admin.site.register(Comment)

@@ -1,0 +1,43 @@
+{% extends "stem/index.html" %}
+
+{% block title %}Log In - {{website.title}}{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 text-center">
+        {% if next and user.is_authenticated %}
+        <p class="text-danger">
+            Your account doesn't have access to this page. To proceed, please login with an account that has access.
+        </p>
+        {% elif next and not user.is_authenticated%}
+        <p class="text-info">Please login to see this page.</p>
+        {% endif %}
+        <br/>
+        {% if not next and user.is_authenticated %}
+        Already logged in. <a href="{% url 'logout' %}">Log out.</a>
+        {% else %}
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="form.username.id_for_label">{{ form.username.label }}</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="form.password.id_for_label">{{ form.password.label }}</label>
+                {{ form.password }}
+            </div>
+            </table>
+            {% if form.errors %}
+            <p class="text-danger">Your username and password didn't match. Please try again.</p>
+            {% endif %}
+            <input type="submit" value="Log in"/>
+            {# Assumes you setup the password_reset view in your URLconf #}
+            <p><a href="{% url 'password_reset' %}">Reset password</a></p>
+            <input type="hidden" name="next" value="{{ next }}"/>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

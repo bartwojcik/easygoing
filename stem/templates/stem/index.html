@@ -1,0 +1,48 @@
+{% extends "stem/base.html" %}
+
+{% block title %}Main Page - {{website.title}}{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+{% if post.hidden == False %}
+<article>
+    <h2><a href="{% url 'post' post.id %}">{{post.title}}</a></h2>
+    <small>
+        <span class="glyphicon glyphicon-time"></span> {{post.created}}
+        <span class="glyphicon glyphicon-pencil"></span>
+        <a href="{% url 'post' post.id %}#comments">
+            {{post.number_of_comments}} Comments
+        </a>
+    </small>
+    <br/>
+    <br/>
+    <p>
+        {{post.content|truncatewords_html:truncate_word_limit}}
+    </p>
+    <p class="text-right">
+        <a href="{% url 'post' post.id %}" class="text-right">
+            Continue reading...
+        </a>
+    </p>
+    <hr/>
+</article>
+{% endif %}
+{% endfor %}
+
+{% if posts.paginator.num_pages > 1 %}
+<ul class="pager">
+    {% if posts.has_previous %}
+    <li><a href="?page={{ posts.previous_page_number }}">Previous</a></li>
+    {% endif %}
+    <span class="current">
+        Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+    </span>
+    {% if posts.has_next %}
+    <li><a href="?page={{ posts.next_page_number }}">Next</a></li>
+    {% endif %}
+</ul>
+{% endif %}
+
+{% endblock %}
+
+{% block sidebar %}Sidebar template{% endblock %}

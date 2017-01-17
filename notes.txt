@@ -1,0 +1,23 @@
+Wanted basic features:
+-Simple blog and articles
+-Comments (no registration, captcha?)
+-Right panel, navigation, additional configurable subpages?
+-Simple hosting for files embedded in posts?
+
+TODO:
+-comment form
+    -capcha for comment
+-permission "owner/author"
+-hide post, comment for authenticated user with permissions
+-interface for post input
+    -also for editing header or sidebar
+    -plain html or markdown posts?
+-i18n l10n dates, interface language, display post languages as mini flags
+    -add https://pypi.python.org/pypi/langdetects
+-setup-script (new secret key, certificate configurataion) - ansible?
+-configurable styles?
+-graphics
+    -background
+    -header
+    -sidebar
+    -favicon

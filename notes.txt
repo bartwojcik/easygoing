@@ -5,19 +5,23 @@ Wanted basic features:
 -Simple hosting for files embedded in posts?
 
 TODO:
--comment form
-    -capcha for comment
--permission "owner/author"
--hide post, comment for authenticated user with permissions
+-plain html or markdown posts?
 -interface for post input
-    -also for editing header or sidebar
-    -plain html or markdown posts?
+-home page edit
+    -sidebar edit
+    -header edit
+    -title edit
 -i18n l10n dates, interface language, display post languages as mini flags
     -add https://pypi.python.org/pypi/langdetects
--setup-script (new secret key, certificate configurataion) - ansible?
--configurable styles?
+    -add tooltips to icons
+-setup-script (ansible?)
+-configurable styles option (bootstrap css?) (with option to upload css)
+-configurable background (with option to upload image)
+-configurable certificate and ssl security (with option to upload certificate?)
+-ensure robots.txt is present and site can be crawled
+-customize bootstrap
 -graphics
     -background
-    -header
-    -sidebar
-    -favicon
+    -header?
+    -sidebar?
+    -favicon?

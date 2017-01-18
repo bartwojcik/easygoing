@@ -1,15 +1,22 @@
 {% extends "stem/base.html" %}
 
-{% block title %}Main Page - {{website.title}}{% endblock %}
+{% block title %}{{website.title}} - Main Page{% endblock %}
 
 {% block content %}
 {% for post in posts %}
-{% if post.hidden == False %}
 <article>
-    <h2><a href="{% url 'post' post.id %}">{{post.title}}</a></h2>
+    <h2>
+        <a href="{% url 'post' post.id %}">{{post.title}}</a>
+        {% if post.hidden %}
+        <small><span class="glyphicon glyphicon-eye-close"></span></small>
+        {% endif %}
+        {% if post.comments_closed and perms.stem.change_post %}
+        <small><span class="glyphicon glyphicon-lock"></span></small>
+        {% endif %}
+    </h2>
     <small>
         <span class="glyphicon glyphicon-time"></span> {{post.created}}
-        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="glyphicon glyphicon-comment"></span>
         <a href="{% url 'post' post.id %}#comments">
             {{post.number_of_comments}} Comments
         </a>
@@ -26,9 +33,7 @@
     </p>
     <hr/>
 </article>
-{% endif %}
 {% endfor %}
-
 {% if posts.paginator.num_pages > 1 %}
 <ul class="pager">
     {% if posts.has_previous %}
@@ -42,7 +47,4 @@
     {% endif %}
 </ul>
 {% endif %}
-
 {% endblock %}
-
-{% block sidebar %}Sidebar template{% endblock %}

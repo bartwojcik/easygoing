@@ -34,6 +34,7 @@ ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS', '').split(';'))
 
 INSTALLED_APPS = [
     'stem.apps.StemConfig',
+    'captcha',
     'solo.apps.SoloAppConfig',
     'django.contrib.postgres',
     'django.contrib.admin',

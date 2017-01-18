@@ -8,6 +8,7 @@ class Website(SingletonModel):
     title = models.CharField(max_length=1024)
     header = models.TextField()
     sidebar = models.TextField()
+    footer = models.TextField()
     truncate_word_limit = models.IntegerField(null=True)
     page_size = models.IntegerField(null=True)
 
@@ -41,9 +42,8 @@ class Post(models.Model):
 class Comment(models.Model):
     author = models.ForeignKey(User, null=True)
     post = models.ForeignKey('Post')
-    ip_address = models.GenericIPAddressField()  # just in case
     date = models.DateTimeField()
     author_name = models.CharField(max_length=255)
-    author_email = models.EmailField()
+    author_email = models.EmailField(blank=True)
     content = models.TextField()
     taken_down = models.BooleanField()

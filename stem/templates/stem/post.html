@@ -1,4 +1,4 @@
-{% extends "stem/index.html" %}
+{% extends "stem/base.html" %}
 
 {% block title %}{{post.title}} - {{website.title}}{% endblock %}
 
@@ -8,7 +8,34 @@
     <small>
         <span class="glyphicon glyphicon-time"></span> {{post.created}}
         {% if post.edited is not None %}
-         (Edited: {{post.edited}})
+        (Edited: {{post.edited}})
+        {% endif %}
+        {% if perms.stem.change_post %}
+        <a href="{% url 'edit_post' post.pk %}" style="display: inline;">
+            <button type="submit" class="btn btn-default btn-xs">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+        </a>
+        <form method="post" action="{% url 'hide_post' post.pk %}" class="form-horizontal" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-default btn-xs">
+                {% if post.hidden %}
+                <span class="glyphicon glyphicon-eye-open"></span>
+                {% else %}
+                <span class="glyphicon glyphicon-eye-close"></span>
+                {% endif %}
+            </button>
+        </form>
+        <form method="post" action="{% url 'close_post' post.pk %}" class="form-horizontal" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-default btn-xs">
+                {% if post.comments_closed %}
+                <span class="glyphicon glyphicon-ok"></span>
+                {% else %}
+                <span class="glyphicon glyphicon-lock"></span>
+                {% endif %}
+            </button>
+        </form>
         {% endif %}
     </small>
     <br/>
@@ -17,23 +44,34 @@
         {{post.content}}
     </p>
 </article>
-
 <hr/>
-
 {% if post.comment_set.all %}
 <h4 id="comments">Comments:</h4>
 {% for comment in post.comment_set.all %}
-{% if not comment.taken_down %}
+{% if perms.stem.change_comment or not comment.taken_down %}
 <article id="comment-{{comment.pk}}">
     <h5>
         {% if comment.author is not None %}
-        <b>{{comment.author.username}}</b>
+        <i><b>{{comment.author.username}}</b></i>
         {% else %}
-        {{comment.author_name}}
+        <i>{{comment.author_name}}</i>
         {% endif %}
         <small>
             <span class="glyphicon glyphicon-time"></span> {{comment.date}}
         </small>
+        {% if perms.stem.change_post %}
+        <form method="post" action="{% url 'takedown_comment' comment.pk %}" class="form-horizontal"
+              style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-default btn-xs">
+                {% if comment.taken_down %}
+                <span class="glyphicon glyphicon-eye-open"></span>
+                {% else %}
+                <span class="glyphicon glyphicon-eye-close"></span>
+                {% endif %}
+            </button>
+        </form>
+        {% endif %}
         <a href="#comment-{{comment.pk}}">#</a>
     </h5>
     <p>
@@ -46,5 +84,46 @@
 {% else %}
 <h4 id="comments">No comments submitted yet.</h4>
 {% endif %}
-
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 text-center">
+        {% if not post.comments_closed %}
+        <form method="post" action="{% url 'post' post.pk %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="form.author_name.id_for_label">{{ form.author_name.label }}</label>
+                {{form.author_name}}
+            </div>
+            <div class="form-group">
+                <label for="form.author_email.id_for_label">{{ form.author_email.label }}</label>
+                {{form.author_email}}
+            </div>
+            <div class="form-group">
+                <label for="form.content.id_for_label">{{ form.content.label }}</label>
+                {{form.content}}
+            </div>
+            <div class="form-group">
+                <label for="form.captcha.id_for_label">{{ form.captcha.label }}</label>
+                {{form.captcha}}
+            </div>
+            {% if form.errors %}
+            {% for field in form %}
+            {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error }}</strong>
+            </div>
+            {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error }}</strong>
+            </div>
+            {% endfor %}
+            {% endif %}
+            <input type="submit" value="Send"/>
+        </form>
+        {% else %}
+        <h4>Comments closed.</h4>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

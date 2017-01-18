@@ -112,7 +112,6 @@ class BasicTests(TestCase):
         c1 = Comment()
         c1.author = author
         c1.post = p1
-        c1.ip_address = '192.168.1.10'
         c1.date = datetime(2017, 5, 10, 10)
         c1.content = 'Bardzo swietny artykul!'
         c1.author_name = ''
@@ -125,7 +124,6 @@ class BasicTests(TestCase):
 
         c2 = Comment()
         c2.post = p1
-        c2.ip_address = '192.168.1.11'
         c2.date = datetime(2017, 5, 10, 11)
         c2.content = 'E tam, do bani!'
         c2.author_name = 'Jaroslaw Kaczynski'
@@ -138,7 +136,6 @@ class BasicTests(TestCase):
 
         c3 = Comment()
         c3.post = p2
-        c3.ip_address = '192.168.1.12'
         c3.date = datetime(2017, 5, 10, 12, 21, 55)
         c3.content = 'English? Do you speak it?'
         c3.author_name = 'Donald Tusk'

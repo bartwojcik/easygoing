@@ -11,51 +11,76 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
 </head>
 <body>
-
-<!--TODO menu/sidebar, styles etc.-->
 <div class="container-fluid">
     <div class="row">
-        <header>
-            <div class="col-md-10 col-md-offset-1 text-center">
-                {% block header %}
-                <div class="well">
-                    {{website.header}}
-                    {% if user.is_authenticated %}
-                    <div class="text-right">
-                         Logged in as {{user.username}}
-                         <a href="{% url 'logout'%}">(Log Out)</a>
-                    </div>
-                    {% endif %}
-                </div>
-                {% endblock %}
+        <div class="col-md-10 col-md-offset-1">
+            {% block header %}
+            <div class="well  text-center">
+                <header>
+                    easygoing base template header: {{header}}
+                </header>
             </div>
-        </header>
+            {% endblock %}
+        </div>
     </div>
-
-
     <div class="row">
         <div class="col-md-9">
             <main>
                 {% block content %} easygoing base template content {% endblock %}
             </main>
         </div>
-
         <div class="col-md-3">
             <br/>
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
+                <div class="text-center">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'edit_home'%}">
+                        <button type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-home"></span>
+                        </button>
+                    </a>
+                    <form method="post" action="{% url 'new_post' %}" class="form-horizontal" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </form>
+                    <a href="{% url 'logout'%}">
+                        <button type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-log-out"> {{user.username}}</span>
+                        </button>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login'%}">
+                        <button type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-log-in"></span>
+                        </button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
                     <div class="well">
                         <nav>
-                            {% block sidebar %} easygoing base template sidebar {% endblock %}
+                            {% block sidebar %} easygoing base template sidebar: {{sidebar}} {% endblock %}
                         </nav>
                     </div>
                 </div>
-                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="well text-center">
+                <footer>
+                    {% block footer %} easygoing base template footer: {{footer}} {% endblock %}
+                </footer>
             </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>

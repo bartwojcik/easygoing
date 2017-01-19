@@ -3,15 +3,16 @@ from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from stem.forms import CommentForm
+from stem.forms import CommentForm, UserCommentForm, WebsiteForm, EditPostForm
+from stem.models import Website
 from stem.services import get_main_context, get_blog_posts, get_post, submit_comment, hide_post, close_comments, \
-    takedown_comment, edit_post, create_post
+    takedown_comment, create_post
 
 
 def index(request):
     context = get_main_context()
     posts = get_blog_posts(True if request.user.has_perm('stem.change_post') else False)
-    paginator = Paginator(posts, context['page_size'])
+    paginator = Paginator(posts, context['website'].page_size)
     page = request.GET.get('page')
     try:
         context['posts'] = paginator.page(page)
@@ -25,11 +26,15 @@ def index(request):
 @permission_required('stem.change_website')
 def edit_home(request):
     if request.method == 'POST':
-        edit_post(id, 'dummy', 'dummycontent')
-        return redirect('post', id)
+        form = WebsiteForm(request.POST, instance=Website.get_solo())
+        if form.is_valid():
+            form.save()
+            return redirect('index')
     else:
-        # TODO edit post iterface
-        pass
+        form = WebsiteForm(instance=Website.get_solo())
+    context = get_main_context()
+    context['form'] = form
+    return render(request, 'stem/edit_home.html', context)
 
 
 @permission_required('stem.add_post')
@@ -46,14 +51,14 @@ def post(request, id):
     if not request.user.is_authenticated and post.hidden:
         return redirect('login')
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = UserCommentForm(request.POST) if request.user.is_authenticated else CommentForm(request.POST)
         if form.is_valid():
             submit_comment(id,
                            request.user if request.user.is_authenticated else None,
                            form.cleaned_data)
             return redirect('post', id)
     else:
-        form = CommentForm()
+        form = UserCommentForm() if request.user.is_authenticated else CommentForm()
     context = get_main_context()
     context['post'] = post
     context['form'] = form
@@ -62,12 +67,17 @@ def post(request, id):
 
 @permission_required('stem.change_post')
 def edit(request, id):
+    post = get_post(id)
     if request.method == 'POST':
-        edit_post(id, 'dummy', 'dummycontent')
-        return redirect('post', id)
+        form = EditPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('post', args=[id]))
     else:
-        # TODO edit post iterface
-        pass
+        form = EditPostForm(instance=post)
+    context = get_main_context()
+    context['form'] = form
+    return render(request, 'stem/edit_post.html', context)
 
 
 @permission_required('stem.change_post')

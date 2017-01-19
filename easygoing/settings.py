@@ -35,6 +35,8 @@ ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS', '').split(';'))
 INSTALLED_APPS = [
     'stem.apps.StemConfig',
     'captcha',
+    'markdown_deux',
+    'crispy_forms',
     'solo.apps.SoloAppConfig',
     'django.contrib.postgres',
     'django.contrib.admin',
@@ -145,3 +147,15 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = '/var/easygoing/static/'
 MEDIA_ROOT = '/var/easygoing/media/'
+
+MARKDOWN_DEUX_STYLES = {
+    "default": {
+        "extras": {
+            "code-friendly": None,
+        },
+        "safe_mode": "escape",
+    },
+}
+
+CRISPY_FAIL_SILENTLY = not DEBUG
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

@@ -5,12 +5,12 @@ from solo.models import SingletonModel
 
 class Website(SingletonModel):
     """Website configuration singleton."""
-    title = models.CharField(max_length=1024)
-    header = models.TextField()
-    sidebar = models.TextField()
-    footer = models.TextField()
-    truncate_word_limit = models.IntegerField(null=True)
-    page_size = models.IntegerField(null=True)
+    title = models.CharField(max_length=1024, default="Don't forget to edit me!")
+    header = models.TextField(default="#Don't forget to edit me!#")
+    sidebar = models.TextField(default="##Don't forget to edit me!##")
+    footer = models.TextField(default="###Don't forget to edit me!###")
+    truncate_word_limit = models.IntegerField(default=200)
+    page_size = models.IntegerField(default=15)
 
     def __str__(self):
         return 'Website configuration'
@@ -24,6 +24,11 @@ LANGUAGES = (
     ('en', 'English'),
     ('pl', 'Polski'),
 )
+# conforming to https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+LANGUAGE_TO_FLAG_MAP = {
+    'pl': 'PL',
+    'en': 'US',
+}
 
 
 class Post(models.Model):

@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
@@ -43,7 +42,7 @@ def submit_comment(post_id, user, form_data):
             else:
                 comment.author_name = form_data['author_name']
                 comment.author_email = form_data['author_email']
-        comment.date = datetime.now()
+        comment.date = timezone.now()
         comment.taken_down = False
         comment.post.number_of_comments += 1
         comment.post.save()
@@ -53,7 +52,7 @@ def submit_comment(post_id, user, form_data):
 def create_post(user):
     post = Post()
     post.author = user
-    post.created = datetime.now()
+    post.created = timezone.now()
     post.language = 'en'
     post.title = 'Enter post title here'
     post.content = 'Enter post content here'

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+from django.utils.translation import gettext_lazy as _
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -33,11 +35,6 @@ ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS', '').split(';'))
 # Application definition
 
 INSTALLED_APPS = [
-    'stem.apps.StemConfig',
-    'captcha',
-    'markdown_deux',
-    'crispy_forms',
-    'solo.apps.SoloAppConfig',
     'django.contrib.postgres',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,16 +42,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'stem.apps.StemConfig',
+    'solo.apps.SoloAppConfig',
+    'captcha',
+    'markdown_deux',
+    'crispy_forms',
+    'tz_detect',
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'tz_detect.middleware.TimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'easygoing.urls'
@@ -67,6 +73,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -138,6 +145,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = (
+    ('en', _('English')),
+    ('pl', _('Polish')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'conf/locale'),
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -147,6 +163,13 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = '/var/easygoing/static/'
 MEDIA_ROOT = '/var/easygoing/media/'
+
+DATE_FORMAT = 'd.m.Y'
+SHORT_DATE_FORMAT = 'Y-m-d'
+SHORT_DATETIME_FORMAT = 'Y-m-d G:i'
+DATETIME_FORMAT = 'Y-m-d G:i:s'
+
+TZ_DETECT_COUNTRIES = ('PL', 'CN', 'US', 'IN', 'JP', 'BR', 'RU', 'DE', 'FR', 'GB')
 
 MARKDOWN_DEUX_STYLES = {
     "default": {

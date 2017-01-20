@@ -1,0 +1,246 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-20 03:04+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: stem/forms.py:16 stem/forms.py:25 stem/forms.py:37 stem/forms.py:49
+msgid "Submit"
+msgstr "Wyślij"
+
+#: stem/forms.py:26 stem/models.py:64
+msgid "Nick"
+msgstr "Pseudonim"
+
+#: stem/forms.py:27 stem/models.py:65
+msgid "E-mail"
+msgstr "E-mail"
+
+#: stem/forms.py:28 stem/models.py:66
+msgid "Comment text"
+msgstr "Treść komentarza"
+
+#: stem/models.py:12 stem/models.py:44
+msgid "Title"
+msgstr "Tytuł"
+
+#: stem/models.py:14
+msgid "Header"
+msgstr "Nagłówek"
+
+#: stem/models.py:15
+msgid "Sidebar"
+msgstr "Panel boczny"
+
+#: stem/models.py:16
+msgid "Footer"
+msgstr "Stopka"
+
+#: stem/models.py:17
+msgid "Truncate word limit"
+msgstr "Limit słów"
+
+#: stem/models.py:18
+msgid "Page size"
+msgstr "Rozmiar strony"
+
+#: stem/models.py:24
+msgid "Website Configuration"
+msgstr "Konfiguracja strony sieciowej"
+
+#: stem/models.py:40 stem/models.py:61
+msgid "Author"
+msgstr "Autor"
+
+#: stem/models.py:41
+msgid "Created"
+msgstr "Stworzono"
+
+#: stem/models.py:42
+msgid "Edited"
+msgstr "Edytowano"
+
+#: stem/models.py:43
+msgid "Language"
+msgstr "Język"
+
+#: stem/models.py:45
+msgid "Content"
+msgstr "Treść"
+
+#: stem/models.py:46
+msgid "Is a blog post"
+msgstr "Wpis bloga"
+
+#: stem/models.py:47
+msgid "Is hidden"
+msgstr "Ukryty"
+
+#: stem/models.py:48
+msgid "Has closed comments"
+msgstr "Zablokowane komentarze"
+
+#: stem/models.py:49
+msgid "Number of comments"
+msgstr "Liczba komentarzy"
+
+#: stem/models.py:56 stem/models.py:62
+msgid "Post"
+msgstr "Wpis"
+
+#: stem/models.py:57
+msgid "Posts"
+msgstr "Wpisy"
+
+#: stem/models.py:63
+msgid "Date"
+msgstr "Data"
+
+#: stem/models.py:67
+msgid "Hidden"
+msgstr "Ukryty"
+
+#: stem/models.py:70
+msgid "Comment"
+msgstr "Komentarz"
+
+#: stem/models.py:71
+msgid "Comments"
+msgstr "Komentarzy"
+
+#: stem/templates/registration/login.html:4 stem/templates/stem/base.html:62
+msgid "Log In"
+msgstr "Zaloguj"
+
+#: stem/templates/registration/login.html:11
+msgid ""
+"Your account doesn't have access to this page. To proceed, please login with "
+"an account that has access."
+msgstr ""
+"Twoje konto nie ma dostępu do tej strony. Zaloguj się z kontem z dostępem do "
+"tej strony żeby kontynuować."
+
+#: stem/templates/registration/login.html:16
+msgid "Please Log In to see this page."
+msgstr "Zaloguj się żeby zobaczyć treść strony."
+
+#: stem/templates/registration/login.html:20
+msgid "Already logged in."
+msgstr "Już zalogowano."
+
+#: stem/templates/registration/login.html:20
+msgid "Log out"
+msgstr "Wyloguj"
+
+#: stem/templates/registration/login.html:26
+msgid "Your username and password didn't match. Please try again."
+msgstr "Podana nazwa użytkownika i hasło są niepoprawne. Spróbuj ponownie."
+
+#: stem/templates/registration/login.html:30
+msgid "Reset password"
+msgstr "Resetuj hasło"
+
+#: stem/templates/stem/base.html:39
+msgid "Go to Home Page"
+msgstr "Idź do strony domowej"
+
+#: stem/templates/stem/base.html:46
+msgid "New Post"
+msgstr "Nowy post"
+
+#: stem/templates/stem/base.html:51
+msgid "Edit Home Page"
+msgstr "Edytuj stronę domową"
+
+#: stem/templates/stem/base.html:56
+msgid "Log Out"
+msgstr "Wyloguj"
+
+#: stem/templates/stem/edit_home.html:4
+msgid "Edit Website"
+msgstr "Edytuj ustawienia strony"
+
+#: stem/templates/stem/edit_post.html:4 stem/templates/stem/post.html:15
+msgid "Edit Post"
+msgstr "Edytuj wpis"
+
+#: stem/templates/stem/index.html:4
+msgid "Main Page"
+msgstr "Strona Główna"
+
+#: stem/templates/stem/index.html:12
+msgid "Post Hidden"
+msgstr "Wpis ukryty"
+
+#: stem/templates/stem/index.html:15
+msgid "Comments Closed"
+msgstr "Komentarze zablokowane"
+
+#: stem/templates/stem/index.html:34
+msgid "Continue reading"
+msgstr "Czytaj dalej"
+
+#: stem/templates/stem/index.html:43
+msgid "Previous"
+msgstr "Poprzednia"
+
+#: stem/templates/stem/index.html:46
+msgid "Page"
+msgstr "Strona"
+
+#: stem/templates/stem/index.html:46
+msgid "of"
+msgstr "z"
+
+#: stem/templates/stem/index.html:49
+msgid "Next"
+msgstr "Następna"
+
+#: stem/templates/stem/post.html:12
+msgid "Edited:"
+msgstr "Edytowano:"
+
+#: stem/templates/stem/post.html:22
+msgid "Unhide Post"
+msgstr "Odkryj wpis"
+
+#: stem/templates/stem/post.html:26
+msgid "Hide Post"
+msgstr "Ukryj wpis"
+
+#: stem/templates/stem/post.html:34
+msgid "Open Comments"
+msgstr "Odblokuj komentarze"
+
+#: stem/templates/stem/post.html:38
+msgid "Block Comments"
+msgstr "Zablokuj komentarze"
+
+#: stem/templates/stem/post.html:72
+msgid "Unhide Comment"
+msgstr "Odkryj komentarz"
+
+#: stem/templates/stem/post.html:74
+msgid "Hide Comment"
+msgstr "Ukryj komentarz"
+
+#: stem/templates/stem/post.html:89
+msgid "No comments submitted yet."
+msgstr "Brak komentarzy."
+
+#: stem/templates/stem/post.html:95
+msgid "Comments closed."
+msgstr "Komentarze zablokowane."

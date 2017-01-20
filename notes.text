@@ -1,8 +1,4 @@
 TODO:
--display post languages as mini flags
--i18n l10n dates, interface language,
-    -add tooltips to icons
-    -add labels to forms
 -setup-script (learn ansible?)
 -configurable styles option (bootstrap css?) (with option to upload css)
 -configurable background (with option to upload image)

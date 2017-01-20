@@ -1,4 +1,4 @@
-{% load staticfiles i18n markdown_deux_tags %}
+{% load staticfiles i18n markdown_deux_tags tz_detect %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +6,12 @@
     <title>{% block title %}{{website.title}}{% endblock %}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Easygoing base template">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/flags.css' %}">
 </head>
+{% tz_detect %}
 <body>
 <div class="container-fluid">
     <div class="row">
@@ -35,30 +36,30 @@
             <div class="row">
                 <div class="text-center">
                     <a href="{% url 'index'%}">
-                        <button type="button" class="btn btn-primary btn-xs">
+                        <button type="button" class="btn btn-primary btn-xs" title="{% trans 'Go to Home Page' %}">
                             <span class="glyphicon glyphicon-home"></span>
                         </button>
                     </a>
                     {% if user.is_authenticated %}
                     <form method="post" action="{% url 'new_post' %}" class="form-horizontal" style="display: inline;">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-xs">
+                        <button type="submit" class="btn btn-primary btn-xs"  title="{% trans 'New Post' %}">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
                     </form>
                     <a href="{% url 'edit_home'%}">
-                        <button type="button" class="btn btn-primary btn-xs">
+                        <button type="button" class="btn btn-primary btn-xs"  title="{% trans 'Edit Home Page' %}">
                             <span class="glyphicon glyphicon-wrench"></span>
                         </button>
                     </a>
                     <a href="{% url 'logout' %}?next={{request.get_full_path}}">
-                        <button type="button" class="btn btn-primary btn-xs">
+                        <button type="button" class="btn btn-primary btn-xs"  title="{% trans 'Log Out' %}">
                             <span class="glyphicon glyphicon-log-out"> {{user.username}}</span>
                         </button>
                     </a>
                     {% else %}
-                    <a href="{% url 'login' %}?next={{request.get_full_path}}">
-                        <button type="button" class="btn btn-primary btn-xs">
+                    <a href="{% url 'login' %}{% if not request.get_full_path == '/' %}?next={{request.get_full_path}}{% endif %}">
+                        <button type="button" class="btn btn-primary btn-xs" title="{% trans 'Log In' %}">
                             <span class="glyphicon glyphicon-log-in"></span>
                         </button>
                     </a>

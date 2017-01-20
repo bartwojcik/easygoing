@@ -1,7 +1,7 @@
 {% extends "stem/base.html" %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
-{% block title %}{{website.title}} - Edit Website{% endblock %}
+{% block title %}{{website.title}} - {% trans 'Edit Website' %}{% endblock %}
 
 {% block content %}
 {% crispy form%}

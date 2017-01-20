@@ -1,5 +1,5 @@
 {% extends "stem/base.html" %}
-{% load crispy_forms_tags markdown_deux_tags %}
+{% load crispy_forms_tags markdown_deux_tags i18n %}
 
 {% block title %}{{post.title}} - {{website.title}}{% endblock %}
 
@@ -7,35 +7,38 @@
 <article>
     <h2>{{post.title}}</h2>
     <small>
-        <span class="glyphicon glyphicon-time"></span> {{post.created}}
-        {% if post.edited is not None %}
-        (Edited: {{post.edited}})
-        {% endif %}
+        <span class="flag flag-{{post.flag}}" title="{{post.get_language_display}}"></span>
+        <span class="glyphicon glyphicon-time"></span> {{post.created|date:"Y-m-d G:i"}}
+        {% if post.edited is not None %}({% trans 'Edited:' %} {{post.edited|date:"Y-m-d G:i"}}){% endif %}
         {% if perms.stem.change_post %}
         <a href="{% url 'edit_post' post.pk %}" style="display: inline;">
-            <button type="submit" class="btn btn-primary btn-xs">
+            <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Edit Post'%}">
                 <span class="glyphicon glyphicon-pencil"></span>
             </button>
         </a>
         <form method="post" action="{% url 'hide_post' post.pk %}" class="form-horizontal" style="display: inline;">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-xs">
-                {% if post.hidden %}
+            {% if post.hidden %}
+            <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Unhide Post'%}">
                 <span class="glyphicon glyphicon-eye-open"></span>
-                {% else %}
-                <span class="glyphicon glyphicon-eye-close"></span>
-                {% endif %}
             </button>
+            {% else %}
+            <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Hide Post'%}">
+                <span class="glyphicon glyphicon-eye-close"></span>
+            </button>
+            {% endif %}
         </form>
         <form method="post" action="{% url 'close_post' post.pk %}" class="form-horizontal" style="display: inline;">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary btn-xs">
-                {% if post.comments_closed %}
+            {% if post.comments_closed %}
+            <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Open Comments'%}">
                 <span class="glyphicon glyphicon-comment"></span>
-                {% else %}
-                <span class="glyphicon glyphicon-lock"></span>
-                {% endif %}
             </button>
+            {% else %}
+            <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Block Comments'%}">
+                <span class="glyphicon glyphicon-lock"></span>
+            </button>
+            {% endif %}
         </form>
         {% endif %}
     </small>
@@ -47,7 +50,7 @@
 </article>
 <hr/>
 {% if post.comment_set.all %}
-<h4 id="comments">Comments:</h4>
+<h4 id="comments">{% comment %}Translators: denominator{% endcomment %}{% trans 'Comments' %}:</h4>
 {% for comment in post.comment_set.all %}
 {% if perms.stem.change_comment or not comment.taken_down %}
 <article id="comment-{{comment.pk}}">
@@ -58,7 +61,7 @@
         <i>{{comment.author_name}}</i>
         {% endif %}
         <small>
-            <span class="glyphicon glyphicon-time"></span> {{comment.date}}
+            <span class="glyphicon glyphicon-time"></span> {{comment.date|date:"Y-m-d G:i"}}
         </small>
         {% if perms.stem.change_post %}
         <form method="post" action="{% url 'takedown_comment' comment.pk %}" class="form-horizontal"
@@ -66,9 +69,9 @@
             {% csrf_token %}
             <button type="submit" class="btn btn-primary btn-xs">
                 {% if comment.taken_down %}
-                <span class="glyphicon glyphicon-eye-open"></span>
+                <span class="glyphicon glyphicon-eye-open" title="{% trans 'Unhide Comment' %}"></span>
                 {% else %}
-                <span class="glyphicon glyphicon-eye-close"></span>
+                <span class="glyphicon glyphicon-eye-close" title="{% trans 'Hide Comment' %}"></span>
                 {% endif %}
             </button>
         </form>
@@ -83,13 +86,13 @@
 {% endif %}
 {% endfor %}
 {% else %}
-<h4 id="comments">No comments submitted yet.</h4>
+<h4 id="comments">{% trans 'No comments submitted yet.' %}</h4>
 {% endif %}
 <div class="row">
     {% if not post.comments_closed %}
     {% crispy form %}
     {% else %}
-    <h4>Comments closed.</h4>
+    <h4>{% trans 'Comments closed.' %}</h4>
     {% endif %}
 </div>
 {% endblock %}

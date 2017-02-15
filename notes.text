@@ -1,15 +1,20 @@
 TODO:
 -setup-script (learn ansible?)
--configurable styles option (bootstrap css?) (with option to upload css)
--configurable background (with option to upload image)
--configurable certificate and ssl security (with option to upload certificate?)
+    -configuration: domain
+    -install docker(-compose) on target system
+    -get app docker image
+    -generate configs from templates (move SECRET_KEY to environment variable)
+    -add certbot to docker
+    -obtain certificate through certbot
+    -ensure certbot runs so that certificate can update automatically (saved on a volume)
 -ensure robots.txt is present and site can be crawled
+-Simple file upload (same as image?) service (do not use DB)
+-configurable background (option to upload image(s)?)
+-configurable styles option (bootstrap css?) (with option to upload css)
 -customize bootstrap
 -graphics
-    -background
     -header?
     -sidebar?
-    -favicon?
+    -favicon? (uploadable?)
 -add licenses view under /license url to comply with various licenses
--Simple hosting for files embedded in posts?
 -add search (haystack?)

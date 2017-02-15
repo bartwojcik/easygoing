@@ -28,7 +28,7 @@ SECRET_KEY = '32^#x%0%)a67lfx)$&di986jeqnr3vfo-f2ms!h4*h&e=dv4#1'
 # TODO better logging?
 DEBUG = bool(os.getenv('DEBUG', False))
 
-# TODO upon deploy ask for domain/allowed and certificate
+# TODO upon deploy configure domain/allowed here and certificate
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS', '').split(';'))
 
@@ -45,10 +45,8 @@ INSTALLED_APPS = [
     'stem.apps.StemConfig',
     'solo.apps.SoloAppConfig',
     'captcha',
-    'markdown_deux',
     'crispy_forms',
     'tz_detect',
-
 ]
 
 MIDDLEWARE = [
@@ -170,15 +168,6 @@ SHORT_DATETIME_FORMAT = 'Y-m-d G:i'
 DATETIME_FORMAT = 'Y-m-d G:i:s'
 
 TZ_DETECT_COUNTRIES = ('PL', 'CN', 'US', 'IN', 'JP', 'BR', 'RU', 'DE', 'FR', 'GB')
-
-MARKDOWN_DEUX_STYLES = {
-    "default": {
-        "extras": {
-            "code-friendly": None,
-        },
-        "safe_mode": "escape",
-    },
-}
 
 CRISPY_FAIL_SILENTLY = not DEBUG
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

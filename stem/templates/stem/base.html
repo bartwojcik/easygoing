@@ -1,4 +1,4 @@
-{% load staticfiles i18n markdown_deux_tags tz_detect %}
+{% load staticfiles i18n tz_detect %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +19,7 @@
             {% block header %}
             <div class="well  text-center">
                 <header>
-                    {{website.header|markdown}}
+                    {{website.header_processed|safe}}
                 </header>
             </div>
             {% endblock %}
@@ -71,7 +71,7 @@
                 <div class="col-md-10 col-md-offset-1">
                     <div class="well">
                         <nav>
-                            {% block sidebar %} {{website.sidebar|markdown}} {% endblock %}
+                            {% block sidebar %} {{website.sidebar_processed|safe}} {% endblock %}
                         </nav>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="well text-center">
-                    {% block footer %} {{website.footer|markdown}} {% endblock %}
+                    {% block footer %} {{website.footer_processed|safe}} {% endblock %}
                 </div>
             </div>
         </div>

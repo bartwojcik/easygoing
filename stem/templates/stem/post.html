@@ -1,5 +1,5 @@
 {% extends "stem/base.html" %}
-{% load crispy_forms_tags markdown_deux_tags i18n %}
+{% load crispy_forms_tags i18n %}
 
 {% block title %}{{post.title}} - {{website.title}}{% endblock %}
 
@@ -45,7 +45,7 @@
     <br/>
     <br/>
     <p>
-        {{post.content|markdown}}
+        {{post.content_processed|safe}}
     </p>
 </article>
 <hr/>

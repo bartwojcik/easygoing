@@ -1,5 +1,5 @@
 {% extends "stem/base.html" %}
-{% load staticfiles markdown_deux_tags i18n %}
+{% load staticfiles i18n %}
 
 {% block title %}{{website.title}} - {% trans 'Main Page' %}{% endblock %}
 
@@ -27,7 +27,7 @@
     <br/>
     <br/>
     <p>
-        {{post.content|markdown|truncatewords_html:website.truncate_word_limit}}
+        {{post.content_processed|safe|truncatewords_html:website.truncate_word_limit}}
     </p>
     <p class="text-right">
         <a href="{% url 'post' post.id %}" class="text-right">

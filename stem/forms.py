@@ -38,7 +38,7 @@ class WebsiteForm(forms.ModelForm):
 
     class Meta:
         model = Website
-        fields = '__all__'
+        exclude = ['header_processed', 'sidebar_processed', 'footer_processed']
 
 
 class EditPostForm(forms.ModelForm):

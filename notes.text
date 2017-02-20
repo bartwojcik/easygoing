@@ -1,6 +1,6 @@
 TODO:
 -setup-script (learn ansible?)
-    -configuration: domain
+    -configuration: domain (nginx, django)
     -install docker(-compose) on target system
     -get app docker image
     -generate configs from templates (move SECRET_KEY to environment variable)

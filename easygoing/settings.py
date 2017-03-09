@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # TODO generate new secret key upon deployment (but not upon update!)
-SECRET_KEY = '32^#x%0%)a67lfx)$&di986jeqnr3vfo-f2ms!h4*h&e=dv4#1'
+SECRET_KEY = os.getenv('SECRET_KEY', '32^#x%0%)a67lfx)$&di986jeqnr3vfo-f2ms!h4*h&e=dv4#1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # TODO better logging?
@@ -167,7 +167,7 @@ SHORT_DATE_FORMAT = 'Y-m-d'
 SHORT_DATETIME_FORMAT = 'Y-m-d G:i'
 DATETIME_FORMAT = 'Y-m-d G:i:s'
 
-TZ_DETECT_COUNTRIES = ('PL', 'CN', 'US', 'IN', 'JP', 'BR', 'RU', 'DE', 'FR', 'GB')
+TZ_DETECT_COUNTRIES = ('PL', 'US', 'JP', 'BR', 'RU', 'DE', 'FR', 'GB')
 
 CRISPY_FAIL_SILENTLY = not DEBUG
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

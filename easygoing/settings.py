@@ -20,17 +20,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = bool(os.getenv('DEBUG', False))
+
 # SECURITY WARNING: keep the secret key used in production secret!
 # TODO generate new secret key upon deployment (but not upon update!)
-SECRET_KEY = os.getenv('SECRET_KEY', '32^#x%0%)a67lfx)$&di986jeqnr3vfo-f2ms!h4*h&e=dv4#1')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# TODO better logging?
-DEBUG = bool(os.getenv('DEBUG', False))
+if DEBUG:
+    SECRET_KEY = os.getenv('SECRET_KEY', '32^#x%0%)a67lfx)$&di986jeqnr3vfo-f2ms!h4*h&e=dv4#1')
+else:
+    SECRET_KEY = os.getenv('SECRET_KEY')
 
 # TODO upon deploy configure domain/allowed here and certificate
 ALLOWED_HOSTS = []
-ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS', '').split(';'))
+if DEBUG:
+    ALLOWED_HOSTS.extend('*')
+else:
+    ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS').split(';'))
 
 # Application definition
 

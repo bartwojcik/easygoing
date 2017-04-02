@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 if DEBUG:
     ALLOWED_HOSTS.extend('*')
 else:
-    ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS').split(';'))
+    ALLOWED_HOSTS.extend(os.getenv('DJANGO_ALLOWED_HOSTS', '').split(';'))
 
 # Application definition
 

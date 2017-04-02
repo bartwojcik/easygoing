@@ -1,4 +1,0 @@
----
-- hosts: target
-  roles:
-    - deploy

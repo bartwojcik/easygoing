@@ -5,12 +5,14 @@ RUN apt-get update && apt-get install -y \
  libfreetype6-dev \
  python-dev \
  postgresql-client \
- gettexts
+ gettext
 RUN groupadd -r user && useradd -r -g user user
 RUN chmod 1777 /tmp
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
-COPY debug-requirements.txt /code/requirements.txt
+COPY requirements.txt /code/requirements.txt
 RUN pip install --upgrade pip --no-cache-dir &&\
     pip install -r requirements.txt --no-cache-dir
+COPY . /code/
+RUN python manage.py compilemessages

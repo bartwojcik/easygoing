@@ -1,0 +1,61 @@
+version: '2'
+volumes:
+  nginx_conf:
+  certificates:
+  base_data:
+  db_data:
+services:
+  nginx:
+    image: nginx:1.11
+    restart: always
+    volumes:
+      - nginx_conf:/etc/nginx/sites-enabled
+      - certificates:/etc/ssl/nginx
+      - base_data:/var/easygoing
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - gunicorn
+  gunicorn:
+    image: easygoing
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      >
+        /bin/sh -c "
+        python wait_for.py db 5432 &&
+        python wait_for.py cache 6379 &&
+        gunicorn easygoing.wsgi:application
+        --name easygoing_gunicorn
+        --bind=unix:/var/easygoing/gunicorn.sock
+        --user=user --group=user
+        --log-level=info
+        --log-file=/var/easygoing/logs/gunicorn.log"
+    user: user
+    environment:
+      # TODO do something about this - fabric deployment
+      DJANGO_ALLOWED_HOSTS: '*'
+      SECRET_KEY: '32^#x%0%)a67lfx)$$&di986jeqnr3vfo-f2ms!h4*h&e=dv4#1'
+      DB_ENGINE: 'django.db.backends.postgresql'
+      DB_NAME: 'postgres'
+      DB_USER: 'postgres'
+      DB_HOST: 'db'
+      DB_PORT: '5432'
+      CACHE_HOST: 'cache'
+      CACHE_PORT: '6379'
+    restart: always
+    volumes:
+      - base_data:/var/easygoing
+    links:
+      - db
+      - cache
+  cache:
+    image: redis:3.2
+    restart: always
+  db:
+    image: postgres:9.6
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data

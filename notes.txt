@@ -1,10 +1,8 @@
 TODO:
--setup-script (learn ansible?)
-    -configuration: domain (nginx, django)
-    -install docker(-compose) on target system
-    -get app docker image
-    -generate configs from templates (move SECRET_KEY to environment variable)
-    -add certbot to docker
+-setup-script
+    -generate nginx config from template
+    -generate docker-compose file from template
+    -add certbot
     -obtain certificate through certbot
     -ensure certbot runs so that certificate can update automatically (saved on a volume)
 -ensure robots.txt is present and site can be crawled

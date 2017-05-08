@@ -1,6 +1,0 @@
-FROM nginx:1.11
-COPY release-nginx.conf /etc/nginx/conf.d/easygoing.conf
-# TODO do something about deployment - user provided certs
-RUN openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout /etc/ssl/nginx.key -out /etc/ssl/nginx.crt \
-    -subj "/C=PL/ST=Malopolskie/L=Krakow/O=Example/OU=Example Department/CN=*"
-RUN rm /etc/nginx/conf.d/default.conf

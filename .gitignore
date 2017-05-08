@@ -133,6 +133,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
-/easygoing.iml
-/.idea/
-/db.sqlite3
+
+easygoing.iml
+.idea/
+db.sqlite3

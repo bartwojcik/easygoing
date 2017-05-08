@@ -1,0 +1,17 @@
+version: '2'
+services:
+  gunicorn:
+    command:
+      >
+        /bin/sh -c "
+        python wait_for.py db 5432 &&
+        python wait_for.py cache 6379 &&
+        gunicorn easygoing.wsgi:application
+        --name easygoing_gunicorn
+        --bind=unix:/var/easygoing/gunicorn.sock
+        --user=user --group=user
+        --log-level=info
+        --log-file=/var/easygoing/logs/gunicorn.log"
+    environment:
+      DJANGO_ALLOWED_HOSTS: '{{fqdn}}'
+      SECRET_KEY: '{{secret_key}}'

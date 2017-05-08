@@ -9,7 +9,7 @@ services:
     image: nginx:1.11
     restart: always
     volumes:
-      - nginx_conf:/etc/nginx/sites-enabled
+      - nginx_conf:/etc/nginx
       - certificates:/etc/ssl/nginx
       - base_data:/var/easygoing
     ports:
@@ -31,11 +31,10 @@ services:
         --name easygoing_gunicorn
         --bind=unix:/var/easygoing/gunicorn.sock
         --user=user --group=user
-        --log-level=info
+        --log-level=debug
         --log-file=/var/easygoing/logs/gunicorn.log"
     user: user
     environment:
-      # TODO do something about this - fabric deployment
       DJANGO_ALLOWED_HOSTS: '*'
       SECRET_KEY: '32^#x%0%)a67lfx)$$&di986jeqnr3vfo-f2ms!h4*h&e=dv4#1'
       DB_ENGINE: 'django.db.backends.postgresql'

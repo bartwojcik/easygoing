@@ -1,6 +1,6 @@
 version: '2'
 volumes:
-  nginx_conf:
+  nginx_conf_d:
   certificates:
   base_data:
   db_data:
@@ -9,7 +9,7 @@ services:
     image: nginx:1.11
     restart: always
     volumes:
-      - nginx_conf:/etc/nginx
+      - nginx_conf_d:/etc/nginx/conf.d
       - certificates:/etc/ssl/nginx
       - base_data:/var/easygoing
     ports:

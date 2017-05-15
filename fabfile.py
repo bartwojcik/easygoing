@@ -91,17 +91,24 @@ def setup():
     upload_template(filename='docker-compose.prod.yml', destination='~/easygoing/docker-compose.prod.yml',
                     context=context, use_jinja=True)
     with settings(warn_only=True):
+        run('docker stop helper')
         run('docker rm helper')
-    run('docker run -v easygoing_nginx_conf:/data --name helper busybox true')
-    run('docker cp ~/easygoing/nginx.conf helper:/data/sites-available/easygoing')
-    run('docker run ')  # TODO tu skonczylem - add proper nginx configuration
+    run('docker run -d -v easygoing_nginx_conf_d:/conf.d/ --name helper busybox tail -f /dev/null')
+    run('docker cp ~/easygoing/nginx.conf helper:/conf.d/{}.conf'.format(env.host))
+    with settings(warn_only=True):
+        run('docker exec helper rm /conf.d/default.conf')
+    run('docker stop helper')
     run('docker rm helper')
+
     script = '''
     mkdir -p /var/easygoing/logs &&
     touch /var/easygoing/logs/gunicorn.log &&
     touch /var/easygoing/logs/nginx-access.log &&
     touch /var/easygoing/logs/nginx-error.log &&
-    chown -R user:user /var/easygoing &&
+    chown -R user:user /var/easygoing
+    '''
+    run("docker-compose -f ~/easygoing/docker-compose.yml run -u root gunicorn /bin/bash -c '{}'".format(script))
+    script = '''
     python wait_for.py db 5432 &&
     python wait_for.py cache 6379 &&
     python manage.py migrate --noinput &&

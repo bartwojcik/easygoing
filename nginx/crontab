@@ -1,0 +1,1 @@
+0 3 * * * certbot renew --quiet --non-interactive >> /var/log/letsencrypt/renew.log && supervisorctl restart nginx;

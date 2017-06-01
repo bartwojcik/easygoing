@@ -1,4 +1,4 @@
-# Easygoing - a simple, easy and secure personal blog.
+# Easygoing - a simple, easy and secure (but still experimental) personal blog.
 ## TODOs:
 - Automate deploy.
   - Generate nginx config from template.

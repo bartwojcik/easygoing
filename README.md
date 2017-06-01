@@ -1,9 +1,7 @@
 # Easygoing - a simple, easy and secure (but still experimental) personal blog.
 ## TODOs:
 - Automate deploy.
-  - Generate nginx config from template.
-  - Generate docker-compose file from template.
-  - Add certbot / obtain certificates through certbot.
+  - automatically add first (random or user-set password!) user
   - Ensure certbot runs so that certificate can update automatically (saved on a volume).
 - Ensure robots.txt is present and site can be crawled (should this be a setting?).
 - Simple file upload (same as image?) service (do not use DB).

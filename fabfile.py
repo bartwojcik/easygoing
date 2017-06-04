@@ -89,8 +89,35 @@ def upload():
     run('rm ~/easygoing/nginx-certbot.image')
 
 
+def request_certificate(context):
+    with settings(warn_only=True):
+        run('docker stop helper')
+        run('docker rm helper')
+    run('docker run -d -v easygoing_nginx_conf_d:/conf.d/ -v easygoing_certificates_keys:/keys/'
+        ' --name helper busybox tail -f /dev/null')
+    run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
+        "run nginx /bin/bash -c 'mkdir -p /var/easygoing/acme'")
+    run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml down")
+    # certbot certonly --staging for test certificates
+    script = '''
+    supervisord &
+    supervisorctl start nginx &&
+    certbot certonly --webroot -d {0} www.{0} -w {1} --rsa-key-size 4096 --email {2} --verbose --noninteractive --agree-tos &&
+    exit
+    '''.format(context['fqdn'], '/var/easygoing/acme', context['admin_email'])
+    run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
+        "run --service-ports nginx /bin/bash -c '{}'".format(script))
+    run('docker cp ~/easygoing/nginx.conf helper:/conf.d/{}.conf'.format(env.host))
+
+
 @task
-def setup(email):
+def create_user(email, username):
+    run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
+        "run gunicorn python manage.py createsuperuser --email {} --username {}".format(email, username))
+
+
+@task
+def setup(email, username):
     context = {'fqdn': env.host,
                'secret_key': escape_docker_strings(get_secret_key()),
                'admin_email': email.strip()}
@@ -127,27 +154,18 @@ def setup(email):
     '''
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
         "run gunicorn /bin/bash -c '{}'".format(script))
-    run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
-        "run nginx /bin/bash -c 'mkdir -p /var/easygoing/acme'")
-    script = '''
-    supervisord &
-    supervisorctl start nginx &&
-    certbot certonly --webroot -d {} -w {} --rsa-key-size 4096 --email {} --verbose --noninteractive --agree-tos &&
-    exit
-    '''.format(context['fqdn'], '/var/easygoing/acme', context['admin_email'])
-    run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
-        "run --service-ports nginx /bin/bash -c '{}'".format(script))
-    run('docker cp ~/easygoing/nginx.conf helper:/conf.d/{}.conf'.format(env.host))
+    request_certificate(context)
     run('docker stop helper')
     run('docker rm helper')
+    create_user(email, username)
 
 
 @task
-def deploy_production(email):
+def deploy_production(email, username):
     build()
     install_docker_debian()
     upload()
-    setup(email)
+    setup(email, username)
     clear()
 
 
@@ -175,11 +193,13 @@ def clear():
 
 
 @task
-def uninstall_docker_debian():
+def purge_docker_debian():
     run('systemctl start docker')
-    run('docker rm $(docker ps -aq)')
-    run('docker rmi $(docker image ls -aq)')
-    run('docker volume rm $(docker volume ls -q)')
+    with settings(warn_only=True):
+        run('docker stop $(docker ps -aq)')
+        run('docker rm $(docker ps -aq)')
+        run('docker rmi $(docker image ls -aq)')
+        run('docker volume rm $(docker volume ls -q)')
     run('systemctl disable docker')
     run('systemctl stop docker')
     run('apt-get remove -y docker-ce')
@@ -189,17 +209,17 @@ def uninstall_docker_debian():
 
 
 @task
-def purge():
+def uninstall():
     with settings(warn_only=True):
         down()
         clear()
         run('docker image rm -f easygoing')
         run('docker image rm -f nginx-certbot')
-        run('docker volume rm -f easygoing_base_data')
-        run('docker volume rm -f easygoing_certificates')
-        run('docker volume rm -f easygoing_certificates_archive')
-        run('docker volume rm -f easygoing_certificates_keys')
-        run('docker volume rm -f easygoing_db_data')
-        run('docker volume rm -f easygoing_nginx_conf_d')
+        # run('docker volume rm -f easygoing_base_data')
+        # run('docker volume rm -f easygoing_certificates')
+        # run('docker volume rm -f easygoing_certificates_archive')
+        # run('docker volume rm -f easygoing_certificates_keys')
+        # run('docker volume rm -f easygoing_db_data')
+        # run('docker volume rm -f easygoing_nginx_conf_d')
         run('rm -rf ~/easygoing')
-        uninstall_docker_debian()
+        purge_docker_debian()

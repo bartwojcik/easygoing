@@ -15,4 +15,6 @@ COPY requirements.txt /code/requirements.txt
 RUN pip install --upgrade pip --no-cache-dir &&\
     pip install -r requirements.txt --no-cache-dir
 COPY . /code/
+ENV DEBUG 1
 RUN python manage.py compilemessages
+ENV DEBUG 0

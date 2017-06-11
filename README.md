@@ -1,14 +1,14 @@
-# Easygoing - a simple, easy and secure (but still experimental) personal blog.
+# Easygoing - a simple, ~~easy and secure~~ experimental personal blog.
 ## TODOs:
 - Verify certbot runs so that certificate can update automatically (saved on a volume).
-- Simple file upload (same as image?) service.
-- Configurable background (option to upload image(s)?).
-- Configurable styles option (bootstrap css?) (with option to upload css?).
-- Customize bootstrap?
-- Add licenses view under /license url to comply with various licenses.
+- Add more readable default style/theme.
+- "Continue reading" should be visible only when post is longer than set word limit.
+- Navbar custom image and text.
+- Dynamic entries in Navbar.
+- Simple file upload (and image?) service.
+- Add favicon (uploadable?).
+- Configurable image background and/or styles option (dynamic customize bootstrap possible?).
 - Add search (haystack?).
 
 ## License
-(License is yet to be chosen.)
-
-Copyright Bartosz Wójcik <bartwojc@gmail.com>
+This project is licensed under the MIT License - see the LICENSE.md file for details

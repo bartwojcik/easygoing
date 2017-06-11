@@ -6,6 +6,7 @@
 {% block content %}
 {% for post in posts %}
 <article>
+    <hr/>
     <h2>
         <a href="{% url 'post' post.id %}">{{post.title}}</a>
         {% if post.hidden %}
@@ -30,13 +31,15 @@
         {{post.content_processed|safe|truncatewords_html:website.truncate_word_limit}}
     </p>
     <p class="text-right">
-        <a href="{% url 'post' post.id %}" class="text-right">
+        <a href="{% url 'post' post.id %}" class="small text-right">
             {% trans 'Continue reading' %} »
         </a>
     </p>
-    <hr/>
 </article>
 {% endfor %}
+{% endblock %}
+
+{% block content-vfill %}
 {% if posts.paginator.num_pages > 1 %}
 <ul class="pager">
     {% if posts.has_previous %}

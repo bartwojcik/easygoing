@@ -1,6 +1,6 @@
-from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.utils import timezone
 
 from stem.models import Website, Post, Comment
 
@@ -47,21 +47,6 @@ def submit_comment(post_id, user, form_data):
         comment.post.number_of_comments += 1
         comment.post.save()
         comment.save()
-
-
-def create_post(user):
-    post = Post()
-    post.author = user
-    post.created = timezone.now()
-    post.language = 'en'
-    post.title = 'Enter post title here'
-    post.content = 'Enter post content here'
-    post.blog_post = False
-    post.hidden = True
-    post.comments_closed = False
-    post.number_of_comments = 0
-    post.save()
-    return post.pk
 
 
 def hide_post(post_id):

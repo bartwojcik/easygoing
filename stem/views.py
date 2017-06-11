@@ -6,7 +6,7 @@ from django.urls import reverse
 from stem.forms import CommentForm, UserCommentForm, WebsiteForm, EditPostForm
 from stem.models import Website
 from stem.services import get_main_context, get_blog_posts, get_post, submit_comment, hide_post, close_comments, \
-    takedown_comment, create_post
+    takedown_comment
 
 
 def index(request):
@@ -40,10 +40,18 @@ def edit_home(request):
 @permission_required('stem.add_post')
 def new_post(request):
     if request.method == 'POST':
-        id = create_post(request.user)
-        return redirect('edit_post', id)
+        form = EditPostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            id = post.pk
+            return redirect(reverse('post', args=[id]))
     else:
-        return redirect('index')
+        form = EditPostForm()
+    context = get_main_context()
+    context['form'] = form
+    return render(request, 'stem/edit_post.html', context)
 
 
 def post(request, id):

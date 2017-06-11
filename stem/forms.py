@@ -2,6 +2,7 @@ from captcha.fields import CaptchaField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
+from django.forms import CharField
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -30,6 +31,9 @@ class CommentForm(forms.Form):
 
 
 class WebsiteForm(forms.ModelForm):
+    sidebar = CharField(strip=False, required=False, widget=forms.Textarea)
+    footer = CharField(strip=False, required=False, widget=forms.Textarea)
+
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.label_class = 'col-lg-2'
@@ -38,7 +42,7 @@ class WebsiteForm(forms.ModelForm):
 
     class Meta:
         model = Website
-        exclude = ['header_processed', 'sidebar_processed', 'footer_processed']
+        exclude = ['sidebar_processed', 'footer_processed']
 
 
 class EditPostForm(forms.ModelForm):
@@ -54,4 +58,4 @@ class EditPostForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         self.instance.edited = timezone.now()
-        super().save(self, *args, **kwargs)
+        return super().save(*args, **kwargs)

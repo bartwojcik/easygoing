@@ -1,6 +1,7 @@
 import mistune
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from pygments import highlight
 from pygments.formatters import html
@@ -18,7 +19,7 @@ class HighlightRenderer(mistune.Renderer):
 
 
 renderer = HighlightRenderer()
-markdown = mistune.Markdown(renderer=renderer)
+markdown = mistune.Markdown(renderer=renderer, hard_wrap=True)
 
 
 class Website(SingletonModel):
@@ -28,11 +29,9 @@ class Website(SingletonModel):
         default="Don't forget to edit me!",
         verbose_name=_('Title')
     )
-    header = models.TextField(default="#Don't forget to edit me!#", blank=True, verbose_name=_('Header'))
-    header_processed = models.TextField()
-    sidebar = models.TextField(default="##Don't forget to edit me!##", blank=True, verbose_name=_('Sidebar'))
+    sidebar = models.TextField(default="###Don't forget to edit me!###", blank=True, verbose_name=_('Sidebar'))
     sidebar_processed = models.TextField()
-    footer = models.TextField(default="###Don't forget to edit me!###", blank=True, verbose_name=_('Footer'))
+    footer = models.TextField(default="##Don't forget to edit me!##", blank=True, verbose_name=_('Footer'))
     footer_processed = models.TextField()
     truncate_word_limit = models.IntegerField(default=200, verbose_name=_('Truncate word limit'))
     page_size = models.IntegerField(default=15, verbose_name=_('Page size'))
@@ -41,10 +40,9 @@ class Website(SingletonModel):
         return 'Website configuration'
 
     def save(self, *args, **kwargs):
-        self.header_processed = markdown(self.header)
         self.sidebar_processed = markdown(self.sidebar)
         self.footer_processed = markdown(self.footer)
-        super(Website, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('Website Configuration')
@@ -64,16 +62,16 @@ LANGUAGE_TO_FLAG_MAP = {
 
 class Post(models.Model):
     author = models.ForeignKey(User, verbose_name=_('Author'))
-    created = models.DateTimeField(verbose_name=_('Created'))
-    edited = models.DateTimeField(null=True, verbose_name=_('Edited'))
+    created = models.DateTimeField(verbose_name=_('Created'), auto_now_add=True)
+    edited = models.DateTimeField(null=True, verbose_name=_('Edited'), default=timezone.now)
     language = models.CharField(max_length=2, choices=LANGUAGES, verbose_name=_('Language'))
     title = models.CharField(max_length=1024, verbose_name=_('Title'))
     content = models.TextField(verbose_name=_('Content'))
     content_processed = models.TextField()
-    blog_post = models.BooleanField(verbose_name=_('Is a blog post'))
-    hidden = models.BooleanField(verbose_name=_('Is hidden'))
-    comments_closed = models.BooleanField(verbose_name=_('Has closed comments'))
-    number_of_comments = models.IntegerField(verbose_name=_('Number of comments'))
+    blog_post = models.BooleanField(verbose_name=_('Is a blog post'), default=True)
+    hidden = models.BooleanField(verbose_name=_('Is hidden'), default=True)
+    comments_closed = models.BooleanField(verbose_name=_('Has closed comments'), default=False)
+    number_of_comments = models.IntegerField(verbose_name=_('Number of comments'), default=0)
 
     @property
     def flag(self):
@@ -81,7 +79,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.content_processed = markdown(self.content)
-        super(Post, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('Post')

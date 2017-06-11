@@ -14,59 +14,54 @@
 </head>
 {% tz_detect %}
 <body>
+{% block nav %}
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <!--TODO add uploadable image / header-->
+            <a class="navbar-brand" href="{% url 'index'%}">{{website.title}}</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="{% url 'index'%}">
+                    <span class="glyphicon glyphicon-home" title="{% trans 'Go to Home Page' %}"></span>
+                </a>
+            </li>
+            {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'new_post'%}">
+                    <span class="glyphicon glyphicon-pencil" title="{% trans 'New Post' %}"></span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'edit_home'%}">
+                    <span class="glyphicon glyphicon-wrench" title="{% trans 'Edit Home Page' %}"></span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'logout' %}?next={{request.get_full_path}}">
+                    <span class="glyphicon glyphicon-log-out" title="{% trans 'Log Out' %}"> {{user.username}}</span>
+                </a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'login' %}{% if not request.get_full_path == '/' %}?next={{request.get_full_path}}{% endif %}">
+                    <span class="glyphicon glyphicon-log-in" title="{% trans 'Log In' %}"></span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+{% endblock %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            {% block header %}
-            <div class="well  text-center">
-                <header>
-                    {{website.header_processed|safe}}
-                </header>
-            </div>
-            {% endblock %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-1">
+        <div class="col-md-9">
             <main>
                 {% block content %} easygoing base template content {% endblock %}
             </main>
         </div>
-        <div class="col-md-2">
-            <br/>
-            <div class="row">
-                <div class="text-center">
-                    <a href="{% url 'index'%}">
-                        <button type="button" class="btn btn-primary btn-xs" title="{% trans 'Go to Home Page' %}">
-                            <span class="glyphicon glyphicon-home"></span>
-                        </button>
-                    </a>
-                    {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'new_post' %}" class="form-horizontal" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-xs"  title="{% trans 'New Post' %}">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                    </form>
-                    <a href="{% url 'edit_home'%}">
-                        <button type="button" class="btn btn-primary btn-xs"  title="{% trans 'Edit Home Page' %}">
-                            <span class="glyphicon glyphicon-wrench"></span>
-                        </button>
-                    </a>
-                    <a href="{% url 'logout' %}?next={{request.get_full_path}}">
-                        <button type="button" class="btn btn-primary btn-xs"  title="{% trans 'Log Out' %}">
-                            <span class="glyphicon glyphicon-log-out"> {{user.username}}</span>
-                        </button>
-                    </a>
-                    {% else %}
-                    <a href="{% url 'login' %}{% if not request.get_full_path == '/' %}?next={{request.get_full_path}}{% endif %}">
-                        <button type="button" class="btn btn-primary btn-xs" title="{% trans 'Log In' %}">
-                            <span class="glyphicon glyphicon-log-in"></span>
-                        </button>
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="col-md-3">
             <br/>
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
@@ -79,17 +74,20 @@
             </div>
         </div>
     </div>
-    <br/>
 </div>
-<br/>
 <footer class="footer">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="well text-center">
-                    {% block footer %} {{website.footer_processed|safe}} {% endblock %}
+            <div class="col-md-9">
+                <div class="flex-container">
+                    {% block content-vfill %} easygoing base template content-vfill {% endblock %}
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="flex-container">
+        <div class="small text-muted">
+            {% block footer %} {{website.footer_processed|safe}} {% endblock %}
         </div>
     </div>
 </footer>

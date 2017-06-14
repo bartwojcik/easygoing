@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-20 03:04+0100\n"
+"POT-Creation-Date: 2017-06-14 20:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,111 +17,107 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: stem/forms.py:16 stem/forms.py:25 stem/forms.py:37 stem/forms.py:49
+#: stem/forms.py:17 stem/forms.py:26 stem/forms.py:41 stem/forms.py:53
 msgid "Submit"
 msgstr "Wyślij"
 
-#: stem/forms.py:26 stem/models.py:64
+#: stem/forms.py:27 stem/models.py:93
 msgid "Nick"
 msgstr "Pseudonim"
 
-#: stem/forms.py:27 stem/models.py:65
+#: stem/forms.py:28 stem/models.py:94
 msgid "E-mail"
 msgstr "E-mail"
 
-#: stem/forms.py:28 stem/models.py:66
+#: stem/forms.py:29 stem/models.py:95
 msgid "Comment text"
 msgstr "Treść komentarza"
 
-#: stem/models.py:12 stem/models.py:44
+#: stem/models.py:30 stem/models.py:68
 msgid "Title"
 msgstr "Tytuł"
 
-#: stem/models.py:14
-msgid "Header"
-msgstr "Nagłówek"
-
-#: stem/models.py:15
+#: stem/models.py:32
 msgid "Sidebar"
 msgstr "Panel boczny"
 
-#: stem/models.py:16
+#: stem/models.py:34
 msgid "Footer"
 msgstr "Stopka"
 
-#: stem/models.py:17
+#: stem/models.py:36
 msgid "Truncate word limit"
 msgstr "Limit słów"
 
-#: stem/models.py:18
+#: stem/models.py:37
 msgid "Page size"
 msgstr "Rozmiar strony"
 
-#: stem/models.py:24
+#: stem/models.py:48
 msgid "Website Configuration"
 msgstr "Konfiguracja strony sieciowej"
 
-#: stem/models.py:40 stem/models.py:61
+#: stem/models.py:64 stem/models.py:90
 msgid "Author"
 msgstr "Autor"
 
-#: stem/models.py:41
+#: stem/models.py:65
 msgid "Created"
 msgstr "Stworzono"
 
-#: stem/models.py:42
+#: stem/models.py:66
 msgid "Edited"
 msgstr "Edytowano"
 
-#: stem/models.py:43
+#: stem/models.py:67
 msgid "Language"
 msgstr "Język"
 
-#: stem/models.py:45
+#: stem/models.py:69
 msgid "Content"
 msgstr "Treść"
 
-#: stem/models.py:46
-msgid "Is a blog post"
-msgstr "Wpis bloga"
+#: stem/models.py:71
+msgid "Is visible on main site"
+msgstr "Widoczny na stronie głównej"
 
-#: stem/models.py:47
-msgid "Is hidden"
-msgstr "Ukryty"
+#: stem/models.py:72
+msgid "Is inaccessible to guests"
+msgstr "Niedostępny dla gości"
 
-#: stem/models.py:48
+#: stem/models.py:73
 msgid "Has closed comments"
 msgstr "Zablokowane komentarze"
 
-#: stem/models.py:49
+#: stem/models.py:74
 msgid "Number of comments"
 msgstr "Liczba komentarzy"
 
-#: stem/models.py:56 stem/models.py:62
+#: stem/models.py:85 stem/models.py:91
 msgid "Post"
 msgstr "Wpis"
 
-#: stem/models.py:57
+#: stem/models.py:86
 msgid "Posts"
 msgstr "Wpisy"
 
-#: stem/models.py:63
+#: stem/models.py:92
 msgid "Date"
 msgstr "Data"
 
-#: stem/models.py:67
+#: stem/models.py:96
 msgid "Hidden"
 msgstr "Ukryty"
 
-#: stem/models.py:70
+#: stem/models.py:99
 msgid "Comment"
 msgstr "Komentarz"
 
-#: stem/models.py:71
+#: stem/models.py:100
 msgid "Comments"
 msgstr "Komentarzy"
 
-#: stem/templates/registration/login.html:4 stem/templates/stem/base.html:62
+#: stem/templates/registration/login.html:4 stem/templates/stem/base.html:54
 msgid "Log In"
 msgstr "Zaloguj"
 
@@ -153,19 +149,19 @@ msgstr "Podana nazwa użytkownika i hasło są niepoprawne. Spróbuj ponownie."
 msgid "Reset password"
 msgstr "Resetuj hasło"
 
-#: stem/templates/stem/base.html:39
+#: stem/templates/stem/base.html:28
 msgid "Go to Home Page"
 msgstr "Idź do strony domowej"
 
-#: stem/templates/stem/base.html:46
+#: stem/templates/stem/base.html:35
 msgid "New Post"
 msgstr "Nowy post"
 
-#: stem/templates/stem/base.html:51
+#: stem/templates/stem/base.html:41
 msgid "Edit Home Page"
 msgstr "Edytuj stronę domową"
 
-#: stem/templates/stem/base.html:56
+#: stem/templates/stem/base.html:47
 msgid "Log Out"
 msgstr "Wyloguj"
 
@@ -173,7 +169,7 @@ msgstr "Wyloguj"
 msgid "Edit Website"
 msgstr "Edytuj ustawienia strony"
 
-#: stem/templates/stem/edit_post.html:4 stem/templates/stem/post.html:15
+#: stem/templates/stem/edit_post.html:4 stem/templates/stem/post.html:27
 msgid "Edit Post"
 msgstr "Edytuj wpis"
 
@@ -181,66 +177,75 @@ msgstr "Edytuj wpis"
 msgid "Main Page"
 msgstr "Strona Główna"
 
-#: stem/templates/stem/index.html:12
+#: stem/templates/stem/index.html:13 stem/templates/stem/post.html:12
 msgid "Post Hidden"
 msgstr "Wpis ukryty"
 
-#: stem/templates/stem/index.html:15
+#: stem/templates/stem/index.html:16 stem/templates/stem/post.html:15
 msgid "Comments Closed"
 msgstr "Komentarze zablokowane"
 
-#: stem/templates/stem/index.html:34
+#: stem/templates/stem/index.html:33
 msgid "Continue reading"
 msgstr "Czytaj dalej"
 
-#: stem/templates/stem/index.html:43
+#: stem/templates/stem/index.html:44
 msgid "Previous"
 msgstr "Poprzednia"
 
-#: stem/templates/stem/index.html:46
+#: stem/templates/stem/index.html:47
 msgid "Page"
 msgstr "Strona"
 
-#: stem/templates/stem/index.html:46
+#: stem/templates/stem/index.html:47
 msgid "of"
 msgstr "z"
 
-#: stem/templates/stem/index.html:49
+#: stem/templates/stem/index.html:50
 msgid "Next"
 msgstr "Następna"
 
-#: stem/templates/stem/post.html:12
+#: stem/templates/stem/post.html:22
 msgid "Edited:"
 msgstr "Edytowano:"
 
-#: stem/templates/stem/post.html:22
+#: stem/templates/stem/post.html:34
 msgid "Unhide Post"
 msgstr "Odkryj wpis"
 
-#: stem/templates/stem/post.html:26
+#: stem/templates/stem/post.html:38
 msgid "Hide Post"
 msgstr "Ukryj wpis"
 
-#: stem/templates/stem/post.html:34
+#: stem/templates/stem/post.html:47
 msgid "Open Comments"
 msgstr "Odblokuj komentarze"
 
-#: stem/templates/stem/post.html:38
+#: stem/templates/stem/post.html:51
 msgid "Block Comments"
 msgstr "Zablokuj komentarze"
 
-#: stem/templates/stem/post.html:72
+#: stem/templates/stem/post.html:83
 msgid "Unhide Comment"
 msgstr "Odkryj komentarz"
 
-#: stem/templates/stem/post.html:74
+#: stem/templates/stem/post.html:85
 msgid "Hide Comment"
 msgstr "Ukryj komentarz"
 
-#: stem/templates/stem/post.html:89
+#: stem/templates/stem/post.html:99
 msgid "No comments submitted yet."
 msgstr "Brak komentarzy."
 
-#: stem/templates/stem/post.html:95
+#: stem/templates/stem/post.html:104
 msgid "Comments closed."
 msgstr "Komentarze zablokowane."
+
+#~ msgid "Header"
+#~ msgstr "Nagłówek"
+
+#~ msgid "Is a blog post"
+#~ msgstr "Wpis bloga"
+
+#~ msgid "Is hidden"
+#~ msgstr "Ukryty"

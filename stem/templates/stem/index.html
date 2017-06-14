@@ -7,26 +7,24 @@
 {% for post in posts %}
 <article>
     <hr/>
-    <h2>
-        <a href="{% url 'post' post.id %}">{{post.title}}</a>
+    <h3>
+        <strong class="text-primary"><a href="{% url 'post' post.id %}" class="unlink">{{post.title}}</a></strong>
         {% if post.hidden %}
         <small><span class="glyphicon glyphicon-eye-close" title="{% trans 'Post Hidden' %}"></span></small>
         {% endif %}
         {% if post.comments_closed and perms.stem.change_post %}
         <small><span class="glyphicon glyphicon-lock" title="{% trans 'Comments Closed' %}"></span></small>
         {% endif %}
-    </h2>
-    <small>
-        <span class="flag flag-{{post.flag}}" title="{{post.get_language_display}}"></span>
+    </h3>
+    <h6>
         <span class="glyphicon glyphicon-calendar"></span> {{ post.created|date:"Y-m-d" }}
         <span class="glyphicon glyphicon-comment"></span>
         <a href="{% url 'post' post.id %}#comments">
             {{post.number_of_comments}}
             {% comment %}Translators: possesive?{% endcomment %}{% trans "Comments" %}
         </a>
-    </small>
-    <br/>
-    <br/>
+        <!--1<span class="flag flag-{{post.flag}}" title="{{post.get_language_display}}"></span>-->
+    </h6>
     <p>
         {{post.content_processed|safe|truncatewords_html:website.truncate_word_limit}}
     </p>

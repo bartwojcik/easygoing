@@ -150,6 +150,7 @@ def setup(email, username):
     python wait_for.py db 5432 &&
     python wait_for.py cache 6379 &&
     python manage.py migrate --noinput &&
+    python manage.py compilemessages &&
     python manage.py collectstatic --noinput
     '''
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "

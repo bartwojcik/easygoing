@@ -7,16 +7,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/theme.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/flags.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/code.css' %}">
 </head>
 {% tz_detect %}
 <body>
 {% block nav %}
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+<nav class="navbar navbar-default">
+    <div class="container">
         <div class="navbar-header">
             <!--TODO add uploadable image / header-->
             <a class="navbar-brand" href="{% url 'index'%}">{{website.title}}</a>
@@ -24,29 +24,34 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a href="{% url 'index'%}">
-                    <span class="glyphicon glyphicon-home" title="{% trans 'Go to Home Page' %}"></span>
+                    <span class="glyphicon glyphicon-home btn btn-primary btn-xs"
+                          title="{% trans 'Go to Home Page' %}"></span>
                 </a>
             </li>
             {% if user.is_authenticated %}
             <li>
                 <a href="{% url 'new_post'%}">
-                    <span class="glyphicon glyphicon-pencil" title="{% trans 'New Post' %}"></span>
+                    <span class="glyphicon glyphicon-pencil btn btn-primary btn-xs"
+                          title="{% trans 'New Post' %}"></span>
                 </a>
             </li>
             <li>
                 <a href="{% url 'edit_home'%}">
-                    <span class="glyphicon glyphicon-wrench" title="{% trans 'Edit Home Page' %}"></span>
+                    <span class="glyphicon glyphicon-wrench btn btn-primary btn-xs"
+                          title="{% trans 'Edit Home Page' %}"></span>
                 </a>
             </li>
             <li>
                 <a href="{% url 'logout' %}?next={{request.get_full_path}}">
-                    <span class="glyphicon glyphicon-log-out" title="{% trans 'Log Out' %}"> {{user.username}}</span>
+                    <span class="glyphicon glyphicon-log-out btn btn-primary btn-xs"
+                          title="{% trans 'Log Out' %}"> {{user.username}}</span>
                 </a>
             </li>
             {% else %}
             <li>
                 <a href="{% url 'login' %}{% if not request.get_full_path == '/' %}?next={{request.get_full_path}}{% endif %}">
-                    <span class="glyphicon glyphicon-log-in" title="{% trans 'Log In' %}"></span>
+                    <span class="glyphicon glyphicon-log-in btn btn-primary btn-xs"
+                          title="{% trans 'Log In' %}"></span>
                 </a>
             </li>
             {% endif %}
@@ -54,7 +59,7 @@
     </div>
 </nav>
 {% endblock %}
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-md-9">
             <main>
@@ -66,9 +71,9 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                     <div class="well">
-                        <nav>
+                        <small>
                             {% block sidebar %} {{website.sidebar_processed|safe}} {% endblock %}
-                        </nav>
+                        </small>
                     </div>
                 </div>
             </div>
@@ -76,7 +81,7 @@
     </div>
 </div>
 <footer class="footer">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-md-9">
                 <div class="flex-container">

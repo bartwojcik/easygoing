@@ -5,11 +5,23 @@
 
 {% block content %}
 <article>
-    <h2>{{post.title}}</h2>
-    <small>
-        <span class="flag flag-{{post.flag}}" title="{{post.get_language_display}}"></span>
-        <span class="glyphicon glyphicon-time"></span> {{post.created|date:"Y-m-d G:i"}}
-        {% if post.edited is not None %}({% trans 'Edited:' %} {{post.edited|date:"Y-m-d G:i"}}){% endif %}
+    <hr/>
+    <h3>
+        <strong class="text-primary">{{post.title}}</strong>
+        {% if post.hidden %}
+        <small><span class="glyphicon glyphicon-eye-close" title="{% trans 'Post Hidden' %}"></span></small>
+        {% endif %}
+        {% if post.comments_closed and perms.stem.change_post %}
+        <small><span class="glyphicon glyphicon-lock" title="{% trans 'Comments Closed' %}"></span></small>
+        {% endif %}
+    </h3>
+    <h6>
+        <!--<span class="flag flag-{{post.flag}}" title="{{post.get_language_display}}"></span>-->
+        <span class="glyphicon glyphicon-calendar"></span> {{ post.created|date:"Y-m-d" }}
+        <span class="glyphicon glyphicon-time"></span> {{post.created|date:"G:i"}}
+        {% if post.edited is not None %}({% trans 'Edited:' %}
+        <span class="glyphicon glyphicon-calendar"></span> {{ post.created|date:"Y-m-d" }}
+        <span class="glyphicon glyphicon-time"></span> {{post.created|date:"G:i"}}){% endif %}
         {% if perms.stem.change_post %}
         <a href="{% url 'edit_post' post.pk %}" style="display: inline;">
             <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Edit Post'%}">
@@ -28,7 +40,8 @@
             </button>
             {% endif %}
         </form>
-        <form method="post" action="{% url 'close_post' post.pk %}" class="form-horizontal" style="display: inline;">
+        <form method="post" action="{% url 'close_post' post.pk %}" class="form-horizontal"
+              style="display: inline;">
             {% csrf_token %}
             {% if post.comments_closed %}
             <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Open Comments'%}">
@@ -41,14 +54,12 @@
             {% endif %}
         </form>
         {% endif %}
-    </small>
-    <br/>
-    <br/>
+    </h6>
     <p>
         {{post.content_processed|safe}}
     </p>
 </article>
-<hr/>
+<br/>
 {% if post.comment_set.all %}
 <h4 id="comments">{% comment %}Translators: denominator{% endcomment %}{% trans 'Comments' %}:</h4>
 {% for comment in post.comment_set.all %}
@@ -81,7 +92,6 @@
     <p>
         {{comment.content}}
     </p>
-    <hr/>
 </article>
 {% endif %}
 {% endfor %}

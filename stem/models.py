@@ -63,13 +63,13 @@ LANGUAGE_TO_FLAG_MAP = {
 class Post(models.Model):
     author = models.ForeignKey(User, verbose_name=_('Author'))
     created = models.DateTimeField(verbose_name=_('Created'), auto_now_add=True)
-    edited = models.DateTimeField(null=True, verbose_name=_('Edited'), default=timezone.now)
+    edited = models.DateTimeField(null=True, verbose_name=_('Edited'), default=None)
     language = models.CharField(max_length=2, choices=LANGUAGES, verbose_name=_('Language'))
     title = models.CharField(max_length=1024, verbose_name=_('Title'))
     content = models.TextField(verbose_name=_('Content'))
     content_processed = models.TextField()
-    blog_post = models.BooleanField(verbose_name=_('Is a blog post'), default=True)
-    hidden = models.BooleanField(verbose_name=_('Is hidden'), default=True)
+    blog_post = models.BooleanField(verbose_name=_('Is visible on main site'), default=True)
+    hidden = models.BooleanField(verbose_name=_('Is inaccessible to guests'), default=True)
     comments_closed = models.BooleanField(verbose_name=_('Has closed comments'), default=False)
     number_of_comments = models.IntegerField(verbose_name=_('Number of comments'), default=0)
 

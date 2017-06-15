@@ -79,7 +79,7 @@ def edit(request, id):
     if request.method == 'POST':
         form = EditPostForm(request.POST, instance=post)
         if form.is_valid():
-            form.save()
+            form.save(edit=True)
             return redirect(reverse('post', args=[id]))
     else:
         form = EditPostForm(instance=post)

@@ -57,5 +57,8 @@ class EditPostForm(forms.ModelForm):
         fields = ['title', 'content', 'blog_post', 'hidden', 'language']
 
     def save(self, *args, **kwargs):
-        self.instance.edited = timezone.now()
+        if kwargs.get('edit', False):
+            self.instance.edited = timezone.now()
+        if 'edit' in kwargs:
+            kwargs.pop('edit')
         return super().save(*args, **kwargs)

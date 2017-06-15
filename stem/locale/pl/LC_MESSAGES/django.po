@@ -115,7 +115,7 @@ msgstr "Komentarz"
 
 #: stem/models.py:100
 msgid "Comments"
-msgstr "Komentarzy"
+msgstr "Komentarze"
 
 #: stem/templates/registration/login.html:4 stem/templates/stem/base.html:54
 msgid "Log In"

@@ -10,24 +10,26 @@ from stem.models import Website, Post
 
 
 class UserCommentForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea, label='')
+
     helper = FormHelper()
     helper.form_class = 'form-horizontal'
     helper.label_class = 'col-lg-2'
-    helper.field_class = 'col-lg-4'
+    helper.field_class = 'col-lg-6'
     helper.add_input(Submit('submit', _('Submit')))
-    content = forms.CharField(widget=forms.Textarea, label='')
 
 
 class CommentForm(forms.Form):
-    helper = FormHelper()
-    helper.form_class = 'form-horizontal'
-    helper.label_class = 'col-lg-2'
-    helper.field_class = 'col-lg-4'
-    helper.add_input(Submit('submit', _('Submit')))
     author_name = forms.CharField(max_length=255, label=_('Nick'))
     author_email = forms.EmailField(required=False, label=_('E-mail'))
     content = forms.CharField(widget=forms.Textarea, label=_('Comment text'))
     captcha = CaptchaField(label='CAPTCHA')
+
+    helper = FormHelper()
+    helper.form_class = 'form-horizontal'
+    helper.label_class = 'col-lg-2'
+    helper.field_class = 'col-lg-6'
+    helper.add_input(Submit('submit', _('Submit')))
 
 
 class WebsiteForm(forms.ModelForm):

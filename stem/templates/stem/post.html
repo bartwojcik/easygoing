@@ -61,18 +61,19 @@
 </article>
 <br/>
 {% if post.comment_set.all %}
-<h4 id="comments">{% comment %}Translators: denominator{% endcomment %}{% trans 'Comments' %}:</h4>
+<h4 id="comments"><strong>{% comment %}Translators: denominator{% endcomment %}{% trans 'Comments' %}:</strong></h4>
 {% for comment in post.comment_set.all %}
 {% if perms.stem.change_comment or not comment.taken_down %}
-<article id="comment-{{comment.pk}}">
+<div id="comment-{{comment.pk}}">
     <h5>
         {% if comment.author is not None %}
-        <i><b>{{comment.author.username}}</b></i>
+        <strong class="text-primary">{{comment.author.username}}</strong>
         {% else %}
-        <i>{{comment.author_name}}</i>
+        <strong>{{comment.author_name}}</strong>
         {% endif %}
         <small>
-            <span class="glyphicon glyphicon-time"></span> {{comment.date|date:"Y-m-d G:i"}}
+            <span class="glyphicon glyphicon-calendar"></span> {{comment.date|date:"Y-m-d"}}
+            <span class="glyphicon glyphicon-time"></span> {{comment.date|date:"G:i"}}
         </small>
         {% if perms.stem.change_post %}
         <form method="post" action="{% url 'takedown_comment' comment.pk %}" class="form-horizontal"
@@ -89,10 +90,8 @@
         {% endif %}
         <a href="#comment-{{comment.pk}}">#</a>
     </h5>
-    <p>
-        {{comment.content}}
-    </p>
-</article>
+    {{comment.content|linebreaks}}
+</div>
 {% endif %}
 {% endfor %}
 {% else %}

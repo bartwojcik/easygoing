@@ -3,9 +3,9 @@ A simple blog I created for my personal needs. May be useful for someone so I pu
 
 ## TODOs: 
 - Verify certbot runs so that certificate can update automatically (saved on a volume).
-- Add prettier flags
-- Navbar custom image.
+- Add prettier flags.
 - Simple file upload (and image?) service.
+- Navbar custom image.
 - Add favicon (uploadable?).
 - Configurable image background and/or styles option (if customization of bootstrap dynamically possible - upload theme.css?).
 - (Possibly) Mitigate markdown syntax XSS vulnerabilites, so it can be also used by users?

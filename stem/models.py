@@ -3,6 +3,7 @@ import re
 import mistune
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from pygments import highlight
 from pygments.formatters import html
@@ -83,6 +84,9 @@ class Post(models.Model):
         self.content_length = len(re.findall(r'\w+', str(self.content)))
         self.content_processed = markdown(self.content)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('post', args=[str(self.pk)])
 
     class Meta:
         verbose_name = _('Post')

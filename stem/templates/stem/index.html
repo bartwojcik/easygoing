@@ -17,14 +17,15 @@
         {% endif %}
     </h3>
     <h6>
+        <!--<span class="flag flag-{{post.flag}}" title="{{post.get_language_display}}"></span>-->
         <span class="glyphicon glyphicon-calendar"></span> {{ post.created|date:"Y-m-d" }}
         <span class="glyphicon glyphicon-comment"></span>
         <a href="{% url 'post' post.id %}#comments">
             {{post.number_of_comments}}
             {% comment %}Translators: possesive?{% endcomment %}{% trans "Comments" %}
         </a>
-        <!--1<span class="flag flag-{{post.flag}}" title="{{post.get_language_display}}"></span>-->
     </h6>
+    {% if post.content_length > website.truncate_word_limit %}
     <p>
         {{post.content_processed|safe|truncatewords_html:website.truncate_word_limit}}
     </p>
@@ -33,6 +34,11 @@
             {% trans 'Continue reading' %} »
         </a>
     </p>
+    {% else %}
+    <p>
+        {{post.content_processed|safe}}
+    </p>
+    {% endif %}
 </article>
 {% endfor %}
 {% endblock %}

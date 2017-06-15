@@ -1,7 +1,8 @@
+import re
+
 import mistune
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from pygments import highlight
 from pygments.formatters import html
@@ -33,8 +34,8 @@ class Website(SingletonModel):
     sidebar_processed = models.TextField()
     footer = models.TextField(default="##Don't forget to edit me!##", blank=True, verbose_name=_('Footer'))
     footer_processed = models.TextField()
-    truncate_word_limit = models.IntegerField(default=200, verbose_name=_('Truncate word limit'))
-    page_size = models.IntegerField(default=15, verbose_name=_('Page size'))
+    truncate_word_limit = models.IntegerField(default=150, verbose_name=_('Truncate word limit'))
+    page_size = models.IntegerField(default=10, verbose_name=_('Page size'))
 
     def __str__(self):
         return 'Website configuration'
@@ -68,6 +69,7 @@ class Post(models.Model):
     title = models.CharField(max_length=1024, verbose_name=_('Title'))
     content = models.TextField(verbose_name=_('Content'))
     content_processed = models.TextField()
+    content_length = models.IntegerField()
     blog_post = models.BooleanField(verbose_name=_('Is visible on main site'), default=True)
     hidden = models.BooleanField(verbose_name=_('Is inaccessible to guests'), default=True)
     comments_closed = models.BooleanField(verbose_name=_('Has closed comments'), default=False)
@@ -78,6 +80,7 @@ class Post(models.Model):
         return LANGUAGE_TO_FLAG_MAP[str(self.language)]
 
     def save(self, *args, **kwargs):
+        self.content_length = len(re.findall(r'\w+', str(self.content)))
         self.content_processed = markdown(self.content)
         super().save(*args, **kwargs)
 

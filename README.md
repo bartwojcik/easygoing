@@ -2,8 +2,7 @@
 A simple blog I created for my personal needs. May be useful for someone so I put it here. (Contributions welcome!)
 
 ## TODOs: 
-- Verify certbot runs so that certificate can update automatically (saved on a volume).
-- Add prettier flags.
+- Verify cron/certbot runs so that certificate can update automatically (saved on a volume).
 - Simple file upload (and image?) service.
 - Navbar custom image.
 - Add favicon (uploadable?).

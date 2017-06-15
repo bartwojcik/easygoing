@@ -16,7 +16,7 @@
         {% endif %}
     </h3>
     <h6>
-        <!--<span class="flag flag-{{post.flag}}" title="{{post.get_language_display}}"></span>-->
+        <span class="flag-icon flag-icon-{{post.flag}}" title="{{post.get_language_display}}"></span>
         <span class="glyphicon glyphicon-calendar"></span> {{ post.created|date:"Y-m-d" }}
         <span class="glyphicon glyphicon-time"></span> {{post.created|date:"G:i"}}
         {% if post.edited is not None %}({% trans 'Edited:' %}

@@ -1,0 +1,41 @@
+{% extends "stem/base.html" %}
+{% load crispy_forms_tags i18n %}
+
+{% block title %}{{website.title}} - {% trans 'Upload File' %}{% endblock %}
+
+{% block content %}
+<article>
+    <hr/>
+    <h3>
+        <a href="{% url 'serve_file' file.uuid%}"><strong class="text-primary">{{file.filename}}</strong></a>
+        {% if file.hidden %}
+        <small><span class="glyphicon glyphicon-eye-close" title="{% trans 'File Hidden' %}"></span></small>
+        {% endif %}
+        <form method="post" action="{% url 'hide_file' file.uuid %}" class="form-horizontal" style="display: inline;">
+            {% csrf_token %}
+            {% if file.hidden %}
+            <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Unhide File'%}">
+                <span class="glyphicon glyphicon-eye-open"></span>
+            </button>
+            {% else %}
+            <button type="submit" class="btn btn-primary btn-xs" title="{% trans 'Hide File'%}">
+                <span class="glyphicon glyphicon-eye-close"></span>
+            </button>
+            {% endif %}
+        </form>
+        <h6>
+
+        </h6>
+    </h3>
+    <p>
+        <strong>{% trans 'Uploaded:' %}</strong>
+        <span class="glyphicon glyphicon-calendar"></span> {{file.upload_date|date:"Y-m-d"}}
+        <span class="glyphicon glyphicon-time"></span> {{file.upload_date|date:"G:i"}}
+    </p>
+        <strong>{% trans 'Description:' %}</strong>
+        {{file.description|linebreaks}}
+</article>
+{% endblock %}
+
+{% block content-vfill %}
+{% endblock %}

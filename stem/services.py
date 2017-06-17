@@ -2,7 +2,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
 
-from stem.models import Website, Post, Comment
+from stem.models import Website, Post, Comment, UploadedFile
 
 DEFAULT_PAGE_SIZE = 15
 DEFAULT_TRUNCATE_LIMIT = 200
@@ -22,8 +22,13 @@ def get_blog_posts(show_all=False):
 
 
 def get_post(id):
-    post = Post.objects.filter(pk=id).prefetch_related('comment_set')[0]
+    post = Post.objects.prefetch_related('comment_set').get(pk=id)
     return post
+
+
+def get_file(uuid):
+    file = UploadedFile.objects.get(uuid=uuid)
+    return file
 
 
 def submit_comment(post_id, user, form_data):
@@ -49,11 +54,18 @@ def submit_comment(post_id, user, form_data):
         comment.save()
 
 
-def hide_post(post_id):
+def post_hide(post_id):
     with transaction.atomic():
         post = Post.objects.get(pk=post_id)
         post.hidden = not post.hidden
         post.save()
+
+
+def file_hide(file_uuid):
+    with transaction.atomic():
+        file = UploadedFile.objects.get(uuid=file_uuid)
+        file.hidden = not file.hidden
+        file.save()
 
 
 def close_comments(post_id):

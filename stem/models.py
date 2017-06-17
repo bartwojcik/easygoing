@@ -1,4 +1,5 @@
 import re
+import uuid
 
 import mistune
 from django.contrib.auth.models import User
@@ -98,10 +99,34 @@ class Comment(models.Model):
     post = models.ForeignKey('Post', verbose_name=_('Post'))
     date = models.DateTimeField(verbose_name=_('Date'))
     author_name = models.CharField(max_length=255, verbose_name=_('Nick'))
-    author_email = models.EmailField(blank=True, verbose_name=_('E-mail'))
+    author_email = models.EmailField(blank=True, verbose_name=_('e-mail'))
     content = models.TextField(verbose_name=_('Comment text'))
     taken_down = models.BooleanField(verbose_name=_('Hidden'))
 
     class Meta:
         verbose_name = _('Comment')
         verbose_name_plural = _('Comments')
+
+
+def gen_uuid():
+    return uuid.uuid4().hex
+
+
+def get_upload_path(instance, filename):
+    print(f'FILENAME: {filename}')
+    instance.filename = filename
+    return instance.uuid
+
+
+class UploadedFile(models.Model):
+    file = models.FileField(verbose_name=_('File'), upload_to=get_upload_path)
+    uuid = models.CharField(max_length=36, default=gen_uuid, unique=True, db_index=True)
+    filename = models.CharField(max_length=255, verbose_name=_("File's name"))
+    owner = models.ForeignKey(User, null=True, verbose_name=_('Owner'))
+    hidden = models.BooleanField(verbose_name=_('Is inaccessible to guests'), default=True)
+    upload_date = models.DateTimeField(verbose_name=_('Upload Date'))
+    description = models.CharField(max_length=255, verbose_name=_("File's description"))
+
+    class Meta:
+        verbose_name = _('Uploaded File')
+        verbose_name_plural = _('Uploaded File')

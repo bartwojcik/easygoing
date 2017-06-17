@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-14 20:59+0000\n"
+"POT-Creation-Date: 2017-06-17 19:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: easygoing/settings.py:150
+#: easygoing/settings.py:154
 msgid "English"
 msgstr "Angielski"
 
-#: easygoing/settings.py:151
+#: easygoing/settings.py:155
 msgid "Polish"
 msgstr "Polski"

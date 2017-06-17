@@ -168,7 +168,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = '/var/easygoing/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/var/easygoing/media/'
+MEDIA_ROOT = '/var/easygoing/media/' if not DEBUG else '/tmp/'
 
 DATE_FORMAT = 'd.m.Y'
 SHORT_DATE_FORMAT = 'Y-m-d'

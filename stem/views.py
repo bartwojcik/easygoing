@@ -1,12 +1,16 @@
+import os
 from django.contrib.auth.decorators import permission_required
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.static import serve
 
-from stem.forms import CommentForm, UserCommentForm, WebsiteForm, EditPostForm
+from easygoing import settings
+from stem.forms import CommentForm, UserCommentForm, WebsiteForm, EditPostForm, UploadFileForm
 from stem.models import Website
-from stem.services import get_main_context, get_blog_posts, get_post, submit_comment, hide_post, close_comments, \
-    takedown_comment
+from stem.services import get_main_context, get_blog_posts, get_post, submit_comment, close_comments, \
+    takedown_comment, get_file, file_hide, post_hide
 
 
 def index(request):
@@ -54,6 +58,52 @@ def new_post(request):
     return render(request, 'stem/edit_post.html', context)
 
 
+@permission_required('stem.add_post')
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = form.save(commit=False)
+            file.owner = request.user
+            file.save()
+            return redirect(reverse('present_file', args=[file.uuid]))
+        else:
+            print(form)
+            print(request.POST)
+            print(request.FILES)
+    else:
+        form = UploadFileForm()
+    context = get_main_context()
+    context['form'] = form
+    return render(request, 'stem/upload_file.html', context)
+
+
+def present_file(request, uuid):
+    file = get_file(uuid)
+    if not request.user.is_authenticated and file.hidden:
+        return redirect('login')
+    context = get_main_context()
+    context['file'] = file
+    return render(request, 'stem/present_file.html', context)
+
+
+def serve_file(request, uuid):
+    file = get_file(uuid)
+    if not request.user.is_authenticated and file.hidden:
+        return redirect('login')
+
+    if not settings.DEBUG:
+        response = HttpResponse()
+        response["Content-Disposition"] = "attachment; filename={0}".format(file.filename)
+        response['X-Accel-Redirect'] = f"{settings.MEDIA_URL}/{uuid}"
+        return response
+    else:
+        filepath = os.path.join(settings.MEDIA_ROOT, uuid)
+        response = serve(request, os.path.basename(filepath), os.path.dirname(filepath))
+        response["Content-Disposition"] = "attachment; filename={0}".format(file.filename)
+        return response
+
+
 def post(request, id):
     post = get_post(id)
     if not request.user.is_authenticated and post.hidden:
@@ -89,10 +139,17 @@ def edit(request, id):
 
 
 @permission_required('stem.change_post')
-def hide(request, id):
+def hide_post(request, id):
     if request.method == 'POST':
-        hide_post(id)
+        post_hide(id)
     return redirect('post', id)
+
+
+@permission_required('stem.change_post')
+def hide_file(request, uuid):
+    if request.method == 'POST':
+        file_hide(uuid)
+    return redirect('present_file', uuid)
 
 
 @permission_required('stem.change_post')

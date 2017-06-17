@@ -2,8 +2,8 @@
 A simple blog I created for my personal needs. May be useful for someone so I put it here. (Contributions welcome!)
 
 ## Prerequisites
-- Root user on Debian 8 target host.
-- Docker installed on local machine.
+- Root user on Debian 8 target host with a domain.
+- Docker installed and running on local machine.
 - Python and Fabric installed on local machine. 
 
 ## Installation
@@ -19,7 +19,7 @@ You will be prompted for password somewhere in the middle.
 ## TODOs: 
 - Verify cron/certbot runs so that certificate can update automatically (saved on a volume).
 - Fix - do not leak information about existing posts (requesting existing but hidden posts redirects to login page).
-- (Possibly) Migrate to REST framework. Simplify image/file upload, associate it with posts/sidebar info. 
+- (Possibly) Add OAuth/OpenID etc.
 - (Possibly) Configurable image background and/or styles option (if customization of bootstrap dynamically possible - upload theme.css?).
 - (Possibly) Dynamic entries in Navbar.
 - (Possibly) Add post author information for multi-author use case.
@@ -28,6 +28,7 @@ You will be prompted for password somewhere in the middle.
 - (Possibly) Add entire edit history to model - make everything undeletable.
 - (Possibly) Add support for more distros to fabfile.py.
 - (Possibly) Add search (haystack?).
+- (Possibly) Migrate to REST framework. Simplify image/file upload, associate it with posts/sidebar info.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE.md file for details

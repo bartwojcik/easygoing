@@ -162,7 +162,7 @@ def setup(email, username):
 
 
 @task
-def deploy_production(email, username):
+def deploy(email, username):
     build()
     install_docker_debian()
     upload()

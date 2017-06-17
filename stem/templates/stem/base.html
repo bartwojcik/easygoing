@@ -18,7 +18,9 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <!--TODO add uploadable image / header-->
+            {% if website.navbar_logo %}
+            <a class="navbar-brand" href="{% url 'index'%}"><img src="/media/{{website.navbar_logo.name}}"/></a>
+            {% endif %}
             <a class="navbar-brand" href="{% url 'index'%}">{{website.title}}</a>
         </div>
         <ul class="nav navbar-nav navbar-right">

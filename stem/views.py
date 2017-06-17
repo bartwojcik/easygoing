@@ -30,7 +30,7 @@ def index(request):
 @permission_required('stem.change_website')
 def edit_home(request):
     if request.method == 'POST':
-        form = WebsiteForm(request.POST, instance=Website.get_solo())
+        form = WebsiteForm(request.POST, request.FILES, instance=Website.get_solo())
         if form.is_valid():
             form.save()
             return redirect('index')

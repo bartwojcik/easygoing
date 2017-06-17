@@ -14,10 +14,10 @@ fab -H root@<target_fqdn> deploy:email=<email>,username=<username>
 ```
 You will be prompted for password somewhere in the middle.
 
+**This will request a [letsencrypt.org](letsencrypt.org) certificate.**
+
 ## TODOs: 
 - Verify cron/certbot runs so that certificate can update automatically (saved on a volume).
-- Navbar custom image.
-- Add favicon (uploadable?).
 - Fix - do not leak information about existing posts (requesting existing but hidden posts redirects to login page).
 - (Possibly) Migrate to REST framework. Simplify image/file upload, associate it with posts/sidebar info. 
 - (Possibly) Configurable image background and/or styles option (if customization of bootstrap dynamically possible - upload theme.css?).

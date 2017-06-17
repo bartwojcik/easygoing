@@ -2,7 +2,9 @@ import re
 import uuid
 
 import mistune
+import os
 from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -10,6 +12,16 @@ from pygments import highlight
 from pygments.formatters import html
 from pygments.lexers import get_lexer_by_name
 from solo.models import SingletonModel
+
+from easygoing import settings
+
+
+class OverwriteStorage(FileSystemStorage):
+    def get_available_name(self, name, max_length=None):
+        # If the filename already exists, remove it as if it was a true file system
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        return name
 
 
 class HighlightRenderer(mistune.Renderer):
@@ -25,6 +37,14 @@ renderer = HighlightRenderer()
 markdown = mistune.Markdown(renderer=renderer, hard_wrap=True)
 
 
+def favicon_path(*args, **kwargs):
+    return 'favicon'
+
+
+def navbar_logo_path(*args, **kwargs):
+    return 'navbar_logo'
+
+
 class Website(SingletonModel):
     """Website configuration singleton."""
     title = models.CharField(
@@ -32,6 +52,8 @@ class Website(SingletonModel):
         default="Don't forget to edit me!",
         verbose_name=_('Title')
     )
+    favicon = models.ImageField(null=True, blank=True, upload_to=favicon_path, storage=OverwriteStorage())
+    navbar_logo = models.ImageField(null=True, blank=True, upload_to=navbar_logo_path, storage=OverwriteStorage())
     sidebar = models.TextField(default="###Don't forget to edit me!###", blank=True, verbose_name=_('Sidebar'))
     sidebar_processed = models.TextField()
     footer = models.TextField(default="##Don't forget to edit me!##", blank=True, verbose_name=_('Footer'))
@@ -45,6 +67,12 @@ class Website(SingletonModel):
     def save(self, *args, **kwargs):
         self.sidebar_processed = markdown(self.sidebar)
         self.footer_processed = markdown(self.footer)
+        favicon_full_path = os.path.join(settings.MEDIA_ROOT, favicon_path())
+        if not self.favicon and os.path.exists(favicon_full_path):
+            os.remove(favicon_full_path)
+        navbar_logo_full_path = os.path.join(settings.MEDIA_ROOT, navbar_logo_path())
+        if not self.navbar_logo and os.path.exists(navbar_logo_full_path):
+            os.remove(navbar_logo_full_path)
         super().save(*args, **kwargs)
 
     class Meta:
@@ -113,7 +141,6 @@ def gen_uuid():
 
 
 def get_upload_path(instance, filename):
-    print(f'FILENAME: {filename}')
     instance.filename = filename
     return instance.uuid
 

@@ -2,7 +2,7 @@ from captcha.fields import CaptchaField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
-from django.forms import CharField
+from django.forms import CharField, ImageField, ClearableFileInput
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -35,6 +35,9 @@ class CommentForm(forms.Form):
 class WebsiteForm(forms.ModelForm):
     sidebar = CharField(strip=False, required=False, widget=forms.Textarea)
     footer = CharField(strip=False, required=False, widget=forms.Textarea)
+    favicon = ImageField(required=False, widget=ClearableFileInput)
+    navbar_logo = ImageField(required=False, widget=ClearableFileInput)
+
 
     helper = FormHelper()
     helper.form_class = 'form-horizontal'

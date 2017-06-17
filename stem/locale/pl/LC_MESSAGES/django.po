@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-17 19:43+0000\n"
+"POT-Creation-Date: 2017-06-17 21:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,132 +17,132 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: stem/forms.py:19 stem/forms.py:32 stem/forms.py:43 stem/forms.py:55
-#: stem/forms.py:76
+#: stem/forms.py:19 stem/forms.py:32 stem/forms.py:46 stem/forms.py:58
+#: stem/forms.py:79
 msgid "Submit"
 msgstr "Wyślij"
 
-#: stem/forms.py:23 stem/models.py:101
+#: stem/forms.py:23 stem/models.py:127
 msgid "Nick"
 msgstr "Pseudonim"
 
-#: stem/forms.py:24 stem/models.py:102
+#: stem/forms.py:24 stem/models.py:128
 msgid "e-mail"
 msgstr "e-mail"
 
-#: stem/forms.py:25 stem/models.py:103
+#: stem/forms.py:25 stem/models.py:129
 msgid "Comment text"
 msgstr "Treść komentarza"
 
-#: stem/forms.py:70 stem/models.py:128
+#: stem/forms.py:73 stem/models.py:153
 msgid "File's description"
 msgstr "Opis pliku"
 
-#: stem/models.py:33 stem/models.py:71
+#: stem/models.py:53 stem/models.py:97
 msgid "Title"
 msgstr "Tytuł"
 
-#: stem/models.py:35
+#: stem/models.py:57
 msgid "Sidebar"
 msgstr "Panel boczny"
 
-#: stem/models.py:37
+#: stem/models.py:59
 msgid "Footer"
 msgstr "Stopka"
 
-#: stem/models.py:39
+#: stem/models.py:61
 msgid "Truncate word limit"
 msgstr "Limit słów"
 
-#: stem/models.py:40
+#: stem/models.py:62
 msgid "Page size"
 msgstr "Rozmiar strony"
 
-#: stem/models.py:51
+#: stem/models.py:77
 msgid "Website Configuration"
 msgstr "Konfiguracja strony sieciowej"
 
-#: stem/models.py:67 stem/models.py:98
+#: stem/models.py:93 stem/models.py:124
 msgid "Author"
 msgstr "Autor"
 
-#: stem/models.py:68
+#: stem/models.py:94
 msgid "Created"
 msgstr "Stworzono"
 
-#: stem/models.py:69
+#: stem/models.py:95
 msgid "Edited"
 msgstr "Edytowano"
 
-#: stem/models.py:70
+#: stem/models.py:96
 msgid "Language"
 msgstr "Język"
 
-#: stem/models.py:72
+#: stem/models.py:98
 msgid "Content"
 msgstr "Treść"
 
-#: stem/models.py:75
+#: stem/models.py:101
 msgid "Is visible on main site"
 msgstr "Widoczny na stronie głównej"
 
-#: stem/models.py:76 stem/models.py:126
+#: stem/models.py:102 stem/models.py:151
 msgid "Is inaccessible to guests"
 msgstr "Niedostępny dla gości"
 
-#: stem/models.py:77
+#: stem/models.py:103
 msgid "Has closed comments"
 msgstr "Zablokowane komentarze"
 
-#: stem/models.py:78
+#: stem/models.py:104
 msgid "Number of comments"
 msgstr "Liczba komentarzy"
 
-#: stem/models.py:93 stem/models.py:99
+#: stem/models.py:119 stem/models.py:125
 msgid "Post"
 msgstr "Wpis"
 
-#: stem/models.py:94
+#: stem/models.py:120
 msgid "Posts"
 msgstr "Wpisy"
 
-#: stem/models.py:100
+#: stem/models.py:126
 msgid "Date"
 msgstr "Data"
 
-#: stem/models.py:104
+#: stem/models.py:130
 msgid "Hidden"
 msgstr "Ukryty"
 
-#: stem/models.py:107
+#: stem/models.py:133
 msgid "Comment"
 msgstr "Komentarz"
 
-#: stem/models.py:108
+#: stem/models.py:134
 msgid "Comments"
 msgstr "Komentarze"
 
-#: stem/models.py:122
+#: stem/models.py:147
 msgid "File"
 msgstr "Plik"
 
-#: stem/models.py:124
+#: stem/models.py:149
 msgid "File's name"
 msgstr "Nazwa pliku"
 
-#: stem/models.py:125
+#: stem/models.py:150
 msgid "Owner"
 msgstr "Właściciel"
 
-#: stem/models.py:127
+#: stem/models.py:152
 msgid "Upload Date"
 msgstr "Data przesłania"
 
-#: stem/models.py:131 stem/models.py:132
+#: stem/models.py:156 stem/models.py:157
 msgid "Uploaded File"
 msgstr "Przesłany plik"
 
-#: stem/templates/registration/login.html:4 stem/templates/stem/base.html:60
+#: stem/templates/registration/login.html:4 stem/templates/stem/base.html:62
 msgid "Log In"
 msgstr "Zaloguj"
 
@@ -174,24 +174,24 @@ msgstr "Podana nazwa użytkownika i hasło są niepoprawne. Spróbuj ponownie."
 msgid "Reset password"
 msgstr "Resetuj hasło"
 
-#: stem/templates/stem/base.html:28
+#: stem/templates/stem/base.html:30
 msgid "Go to Home Page"
 msgstr "Idź do strony domowej"
 
-#: stem/templates/stem/base.html:35
+#: stem/templates/stem/base.html:37
 msgid "New Post"
 msgstr "Nowy post"
 
-#: stem/templates/stem/base.html:41 stem/templates/stem/present_file.html:4
+#: stem/templates/stem/base.html:43 stem/templates/stem/present_file.html:4
 #: stem/templates/stem/upload_file.html:4
 msgid "Upload File"
 msgstr "Prześlij plik"
 
-#: stem/templates/stem/base.html:47
+#: stem/templates/stem/base.html:49
 msgid "Edit Home Page"
 msgstr "Edytuj stronę domową"
 
-#: stem/templates/stem/base.html:53
+#: stem/templates/stem/base.html:55
 msgid "Log Out"
 msgstr "Wyloguj"
 

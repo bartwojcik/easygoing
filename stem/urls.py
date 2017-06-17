@@ -1,7 +1,9 @@
 from django.conf.urls import url
+from django.conf.urls.static import static
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import sitemap
 
+from easygoing import settings
 from stem.models import Post
 from . import views
 
@@ -34,3 +36,6 @@ urlpatterns = [
         {'sitemaps': {'posts': PostsSitemap}},
         name='django.contrib.sitemaps.views.sitemap'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

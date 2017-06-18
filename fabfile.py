@@ -1,7 +1,7 @@
 import random
 
 from fabric.context_managers import settings
-from fabric.contrib.files import upload_template
+from fabric.contrib.files import upload_template, exists
 from fabric.decorators import task
 from fabric.operations import run, local, put
 from fabric.state import env
@@ -102,7 +102,7 @@ def request_certificate(context):
     script = '''
     supervisord &
     supervisorctl start nginx &&
-    certbot certonly --webroot -d {0} www.{0} -w {1} --rsa-key-size 4096 --email {2} --verbose --noninteractive --agree-tos &&
+    certbot certonly --webroot -d {0} -w {1} --rsa-key-size 4096 --email {2} --verbose --noninteractive --agree-tos &&
     exit
     '''.format(context['fqdn'], '/var/easygoing/acme', context['admin_email'])
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
@@ -121,8 +121,9 @@ def setup(email, username):
     context = {'fqdn': env.host,
                'secret_key': escape_docker_strings(get_secret_key()),
                'admin_email': email.strip()}
-    local('openssl dhparam -out dhparam.pem 4096')
-    put(local_path='dhparam.pem', remote_path='~/easygoing/dhparam.pem')
+    if not exists('~/easygoing/dhparam.pem'):
+        local('openssl dhparam -out dhparam.pem 4096')
+        put(local_path='dhparam.pem', remote_path='~/easygoing/dhparam.pem')
     with settings(warn_only=True):
         local('rm -f dhparam.pem')
     upload_template(filename='nginx/nginx.conf', destination='~/easygoing/nginx.conf', context=context, use_jinja=True)
@@ -150,7 +151,6 @@ def setup(email, username):
     python wait_for.py db 5432 &&
     python wait_for.py cache 6379 &&
     python manage.py migrate --noinput &&
-    python manage.py compilemessages &&
     python manage.py collectstatic --noinput
     '''
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "

@@ -14,6 +14,11 @@ fab -H root@<target_fqdn> deploy:email=<email>,username=<username>
 ```
 You will be prompted for password somewhere in the middle.
 
+To start the blog:
+```bash
+ab -H root@<target_fqdn> up
+```
+
 **This will request a [letsencrypt.org](letsencrypt.org) certificate.**
 
 ## TODOs: 

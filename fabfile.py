@@ -162,6 +162,26 @@ def setup(email, username):
 
 
 @task
+def update():
+    # experimental - risky!
+    build()
+    down()
+    upload()
+    context = {'fqdn': env.host}
+    upload_template(filename='nginx/nginx.conf', destination='~/easygoing/nginx.conf', context=context, use_jinja=True)
+    # upload_template(filename='docker-compose.prod.yml', destination='~/easygoing/docker-compose.prod.yml',
+    #                 context=context, use_jinja=True)
+    script = '''
+    python wait_for.py db 5432 &&
+    python wait_for.py cache 6379 &&
+    python manage.py migrate --noinput &&
+    python manage.py collectstatic --noinput
+    '''
+    run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
+        "run gunicorn /bin/bash -c '{}'".format(script))
+    clear()
+
+@task
 def deploy(email, username):
     build()
     install_docker_debian()

@@ -152,7 +152,7 @@ class UploadedFile(models.Model):
     owner = models.ForeignKey(User, null=True, verbose_name=_('Owner'))
     hidden = models.BooleanField(verbose_name=_('Is inaccessible to guests'), default=True)
     upload_date = models.DateTimeField(verbose_name=_('Upload Date'))
-    description = models.CharField(max_length=255, verbose_name=_("File's description"))
+    description = models.CharField(blank=True, max_length=255, verbose_name=_("File's description"))
 
     class Meta:
         verbose_name = _('Uploaded File')

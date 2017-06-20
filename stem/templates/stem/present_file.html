@@ -32,8 +32,10 @@
         <span class="glyphicon glyphicon-calendar"></span> {{file.upload_date|date:"Y-m-d"}}
         <span class="glyphicon glyphicon-time"></span> {{file.upload_date|date:"G:i"}}
     </p>
+        {% if file.description %}
         <strong>{% trans 'Description:' %}</strong>
         {{file.description|linebreaks}}
+        {% endif %}
 </article>
 {% endblock %}
 

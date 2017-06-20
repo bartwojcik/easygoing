@@ -70,7 +70,7 @@ class EditPostForm(forms.ModelForm):
 
 
 class UploadFileForm(forms.ModelForm):
-    description = forms.CharField(widget=forms.Textarea, label=_("File's description"))
+    description = forms.CharField(required=False, widget=forms.Textarea, label=_("File's description"))
 
     helper = FormHelper()
     helper.form_class = 'form-horizontal'

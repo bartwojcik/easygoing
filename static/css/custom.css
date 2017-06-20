@@ -16,6 +16,10 @@ nav {
     flex: 0 0 auto;
 }
 
+img {
+  max-width:100%;
+}
+
 a.unlink {
     color: inherit;
 }

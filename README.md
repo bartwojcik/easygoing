@@ -20,6 +20,7 @@ You will be prompted for password somewhere in the middle.
 - Verify cron/certbot runs so that certificate can update automatically (saved on a volume).
 - Fix - do not leak information about existing posts (requesting existing but hidden posts redirects to login page).
 - (Possibly) Add OAuth/OpenID etc.
+- (Possibly) Prettier django admin names.
 - (Possibly) Configurable image background and/or styles option (if customization of bootstrap dynamically possible - upload theme.css?).
 - (Possibly) Dynamic entries in Navbar.
 - (Possibly) Add post author information for multi-author use case.

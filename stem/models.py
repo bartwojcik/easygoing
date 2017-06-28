@@ -27,7 +27,7 @@ class OverwriteStorage(FileSystemStorage):
 class HighlightRenderer(mistune.Renderer):
     def block_code(self, code, lang):
         if not lang:
-            return '\n<pre><code>{}</code></pre>\n'.format(mistune.escape(code))
+            return f'\n<pre><code>{mistune.escape(code)}</code></pre>\n'
         lexer = get_lexer_by_name(lang, stripall=True)
         formatter = html.HtmlFormatter()
         return highlight(code, lexer, formatter)
@@ -142,7 +142,7 @@ def gen_uuid():
 
 def get_upload_path(instance, filename):
     instance.filename = filename
-    return instance.uuid
+    return f'files/{instance.uuid}'
 
 
 class UploadedFile(models.Model):

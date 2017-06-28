@@ -17,7 +17,12 @@ nav {
 }
 
 img {
-  max-width:100%;
+    max-width:100%;
+    height: auto;
+}
+
+img.navbar_logo {
+    height: 1.75em;
 }
 
 a.unlink {

@@ -67,10 +67,6 @@ def upload_file(request):
             file.owner = request.user
             file.save()
             return redirect(reverse('present_file', args=[file.uuid]))
-        else:
-            print(form)
-            print(request.POST)
-            print(request.FILES)
     else:
         form = UploadFileForm()
     context = get_main_context()
@@ -94,13 +90,13 @@ def serve_file(request, uuid):
 
     if not settings.DEBUG:
         response = HttpResponse()
-        response["Content-Disposition"] = "attachment; filename={0}".format(file.filename)
-        response['X-Accel-Redirect'] = f"{settings.MEDIA_URL}/{uuid}"
+        response['Content-Disposition'] = f'attachment; filename={file.filename}'
+        response['X-Accel-Redirect'] = f'{settings.MEDIA_URL}/{uuid}'
         return response
     else:
-        filepath = os.path.join(settings.MEDIA_ROOT, uuid)
+        filepath = os.path.join(settings.MEDIA_ROOT, 'files', uuid)
         response = serve(request, os.path.basename(filepath), os.path.dirname(filepath))
-        response["Content-Disposition"] = "attachment; filename={0}".format(file.filename)
+        response['Content-Disposition'] = f'attachment; filename={file.filename}'
         return response
 
 

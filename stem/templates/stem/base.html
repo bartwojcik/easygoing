@@ -19,7 +19,9 @@
     <div class="container">
         <div class="navbar-header">
             {% if website.navbar_logo %}
-            <a class="navbar-brand" href="{% url 'index'%}"><img src="/{{website.navbar_logo.name}}"/></a>
+            <a class="navbar-brand" href="{% url 'index'%}">
+                <img class="navbar_logo" src="/{{website.navbar_logo.name}}"/>
+            </a>
             {% endif %}
             <a class="navbar-brand" href="{% url 'index'%}">{{website.title}}</a>
         </div>

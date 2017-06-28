@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.getenv('DEBUG', False))
+DEBUG = True if (os.getenv('DEBUG') == 'True' or os.getenv('DEBUG') == '1') else False
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if DEBUG:
@@ -93,7 +93,7 @@ if os.getenv('CACHE_HOST'):
     CACHES = {
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://{}:{}/1'.format(os.getenv('CACHE_HOST', 'cache'), os.getenv('CACHE_PORT', '6379')),
+            'LOCATION': f"redis://{os.getenv('CACHE_HOST', 'cache')}:{os.getenv('CACHE_PORT', '6379')}/1",
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.HerdClient'
             }
@@ -168,7 +168,9 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = '/var/easygoing/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/var/easygoing/media/' if not DEBUG else '/tmp/'
+MEDIA_ROOT = '/var/easygoing/media/'
+if DEBUG and not os.path.exists(MEDIA_ROOT):
+    MEDIA_ROOT = '/tmp/'
 
 DATE_FORMAT = 'd.m.Y'
 SHORT_DATE_FORMAT = 'Y-m-d'

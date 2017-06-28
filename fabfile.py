@@ -140,7 +140,9 @@ def setup(email, username):
     run('docker cp ~/easygoing/dhparam.pem helper:/keys/dhparam.pem'.format(env.host))
     script = '''
     mkdir -p /var/easygoing/logs &&
-    touch /var/easygoing/logs/gunicorn.log &&
+    mkdir -p /var/easygoing/media &&
+    touch /var/easygoing/logs/gunicorn-access.log &&
+    touch /var/easygoing/logs/gunicorn-error.log &&
     touch /var/easygoing/logs/nginx-access.log &&
     touch /var/easygoing/logs/nginx-error.log &&
     chown -R user:user /var/easygoing

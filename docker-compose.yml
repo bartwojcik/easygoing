@@ -38,7 +38,8 @@ services:
         --bind=unix:/var/easygoing/gunicorn.sock
         --user=user --group=user
         --log-level=debug
-        --log-file=/var/easygoing/logs/gunicorn.log"
+        --error-logfile=/var/easygoing/logs/gunicorn-error.log
+        --access-logfile=/var/easygoing/logs/gunicorn-access.log"
     user: user
     environment:
       DJANGO_ALLOWED_HOSTS: '*'

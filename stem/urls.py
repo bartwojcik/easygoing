@@ -38,4 +38,6 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=f'{settings.MEDIA_ROOT}/files')
+    urlpatterns += static('navbar_logo', document_root=f'{settings.MEDIA_ROOT}/navbar_logo')
+    urlpatterns += static('favicon.ico', document_root=f'{settings.MEDIA_ROOT}/favicon')

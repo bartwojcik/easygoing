@@ -22,6 +22,7 @@ ab -H root@<target_fqdn> up
 **This will request a [letsencrypt.org](letsencrypt.org) certificate.**
 
 ## TODOs: 
+- Add file logging to django settings.
 - Verify cron/certbot runs so that certificate can update automatically (saved on a volume).
 - Fix - do not leak information about existing posts (requesting existing but hidden posts redirects to login page).
 - (Possibly) Add OAuth/OpenID etc.

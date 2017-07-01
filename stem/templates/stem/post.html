@@ -94,13 +94,9 @@
 </div>
 {% endif %}
 {% endfor %}
-{% else %}
-<h4 id="comments"><strong>{% trans 'No comments submitted yet.' %}</strong></h4>
 {% endif %}
 {% if not post.comments_closed %}
 {% crispy form %}
-{% else %}
-<h4>{% trans 'Comments closed.' %}</h4>
 {% endif %}
 {% endblock %}
 

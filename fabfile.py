@@ -37,6 +37,19 @@ def escape_docker_strings(string):
     return string.replace('$', '$$')
 
 
+#
+# @task
+# def temp_task():
+#     with settings(warn_only=True):
+#         run('docker stop helper')
+#         run('docker rm helper')
+#     run('docker run -d -v easygoing_nginx_conf_d:/conf.d/ -v easygoing_certificates:/letsencrypt/'
+#         ' --name helper busybox tail -f /dev/null')
+#     run('docker cp ~/easygoing/dhparam.pem helper:/letsencrypt/keys/dhparam.pem'.format(env.host))
+#     run('docker stop helper')
+#     run('docker rm helper')
+
+
 @task
 def install_docker_debian():
     with settings(warn_only=True):
@@ -89,12 +102,22 @@ def upload():
     run('rm ~/easygoing/nginx-certbot.image')
 
 
+@task
+def request_cert(email):
+    context = {'fqdn': env.host,
+               'admin_email': email.strip()}
+    request_certificate(context)
+
+
 def request_certificate(context):
     with settings(warn_only=True):
         run('docker stop helper')
         run('docker rm helper')
-    run('docker run -d -v easygoing_nginx_conf_d:/conf.d/ -v easygoing_certificates_keys:/keys/'
+    run('docker run -d -v easygoing_nginx_conf_d:/conf.d/ -v easygoing_letsencrypt:/letsencrypt/'
         ' --name helper busybox tail -f /dev/null')
+    # replace nginx conf with nginx-certbot
+    run('docker cp ~/easygoing/nginx-certbot.conf helper:/conf.d/{}.conf'.format(env.host))
+    # create necessary directories
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
         "run nginx /bin/bash -c 'mkdir -p /var/easygoing/acme'")
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml down")
@@ -107,7 +130,11 @@ def request_certificate(context):
     '''.format(context['fqdn'], '/var/easygoing/acme', context['admin_email'])
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
         "run --service-ports nginx /bin/bash -c '{}'".format(script))
+    # replace nginx-certbot conf with nginx
     run('docker cp ~/easygoing/nginx.conf helper:/conf.d/{}.conf'.format(env.host))
+    run('docker cp ~/easygoing/dhparam.pem helper:/letsencrypt/keys/dhparam.pem'.format(env.host))
+    run('docker stop helper')
+    run('docker rm helper')
 
 
 @task
@@ -136,8 +163,7 @@ def setup(email, username):
         run('docker rm helper')
     run('docker run -d -v easygoing_nginx_conf_d:/conf.d/ -v easygoing_certificates_keys:/keys/'
         ' --name helper busybox tail -f /dev/null')
-    run('docker cp ~/easygoing/nginx-certbot.conf helper:/conf.d/{}.conf'.format(env.host))
-    run('docker cp ~/easygoing/dhparam.pem helper:/keys/dhparam.pem'.format(env.host))
+
     script = '''
     mkdir -p /var/easygoing/logs &&
     mkdir -p /var/easygoing/media &&
@@ -158,8 +184,10 @@ def setup(email, username):
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
         "run gunicorn /bin/bash -c '{}'".format(script))
     request_certificate(context)
-    run('docker stop helper')
-    run('docker rm helper')
+    run('docker cp ~/easygoing/dhparam.pem helper:/keys/dhparam.pem'.format(env.host))
+    with settings(warn_only=True):
+        run('docker stop helper')
+        run('docker rm helper')
     create_user(email, username)
 
 
@@ -182,6 +210,7 @@ def update():
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
         "run gunicorn /bin/bash -c '{}'".format(script))
     clear()
+
 
 @task
 def deploy(email, username):

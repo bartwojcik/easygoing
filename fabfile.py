@@ -119,7 +119,9 @@ def request_certificate(context):
     run('docker cp ~/easygoing/nginx-certbot.conf helper:/conf.d/{}.conf'.format(env.host))
     # create necessary directories
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
-        "run nginx /bin/bash -c 'mkdir -p /var/easygoing/acme'")
+        "run nginx /bin/bash -c 'mkdir -p /var/easygoing/acme/.well-known/acme-challenge'")
+    run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml "
+        "run nginx /bin/bash -c 'chmod o+rwx /var/easygoing/acme/.well-known/acme-challenge'")
     run("docker-compose -f ~/easygoing/docker-compose.yml -f ~/easygoing/docker-compose.prod.yml down")
     # certbot certonly --staging for test certificates
     script = '''

@@ -22,7 +22,7 @@ fab -H root@<target_fqdn> up
 **This will request a [letsencrypt.org](letsencrypt.org) certificate.**
 
 ## TODOs:
-- Make certbot renew (crontab) work so that certificate can update automatically. 
+@- Make certbot renew (crontab) work so that certificate can update automatically. 
 - Add human friendly URL's: title for a post, name for a file etc.
 - Add file logging to django settings.
 - Fix - do not leak information about existing posts (requesting existing but hidden posts redirects to login page).

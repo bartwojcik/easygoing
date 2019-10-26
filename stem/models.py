@@ -134,6 +134,7 @@ class Comment(models.Model):
     class Meta:
         verbose_name = _('Comment')
         verbose_name_plural = _('Comments')
+        ordering = ['date']
 
 
 def gen_uuid():
